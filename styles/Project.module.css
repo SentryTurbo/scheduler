@@ -1,0 +1,23 @@
+.grid{
+    margin-right: 20px;
+
+    column-gap: 20px;
+
+    display:grid;
+    grid-template-columns: 70% auto;
+
+    height: 250px;
+}
+
+.grid-milestone{
+    background-color: #CCBFBF;
+}
+
+.grid-milestone-content{
+    padding: 20px;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 2.5em;
+}

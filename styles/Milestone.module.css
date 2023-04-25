@@ -1,0 +1,25 @@
+.assignment{
+    display:flex;
+    flex-wrap: wrap;
+    align-content: center;
+    
+    background-color: #CCBFBF;
+
+    height:40px;
+}
+
+.assignment-info{
+    padding-left: 20px;
+    
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.list{
+    display:flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    width: 90%;
+}
