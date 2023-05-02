@@ -4,6 +4,8 @@ import Conveyor from "../../components/Conveyor";
 import Panel from "../../components/Panel";
 import Link from "next/link";
 
+import {BsPlusCircle} from 'react-icons/bs';
+
 import styles from '../../styles/Project.module.css';
 
 export default function Project(props){
@@ -30,6 +32,8 @@ function Page(props){
     );
 
     useEffect(()=>{
+        console.log(router.query.id);
+        
         fetch("http://localhost:80/scheduler/project.php?id="+router.query.id)
             .then(res => res.json())
             .then((result) => {
@@ -43,7 +47,7 @@ function Page(props){
                 //setLoading(false);
             }
         )
-    },[]);
+    },[router]);
     
     if(loading)
         return(
@@ -66,7 +70,7 @@ function Page(props){
             </div>
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Milestones</h1>
+                    <h1>Milestones <BsPlusCircle /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones}/>
                 </div>
             </div>

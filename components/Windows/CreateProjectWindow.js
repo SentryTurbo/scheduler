@@ -1,9 +1,52 @@
 import React from "react";
 
+import {FormGeneric, InputButton, InputGeneric} from "../Modules/FormModules";
+
 export default function CreateProjectWindow(props){
+    const _submit = (data) => {
+        console.log(Object.fromEntries(data.entries()));
+        
+        fetch("http://localhost:80/scheduler/actions/createproject.php", {method:'post', body:data})
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result);
+            },
+            (error) => {
+                console.log(error);
+            })
+    }
+    
+    const dataset = [
+        {
+            name:'name', 
+            prettyname:'Project Name', 
+            input:{
+                type:'text',
+                name:'name',
+                required:true
+            }
+        },
+        {
+            name:'description', 
+            prettyname:'Project Description', 
+            input:{
+                type:'text',
+                name:'description'
+            }
+        },
+        {
+            name:'submit',
+            prettyname:'',
+            input:{
+                type:'submit'
+            }
+        }
+    ]
+    
     return (
         <div>
-            create a project :)))
+            <h3>Create a project</h3>
+            <FormGeneric submit={_submit} dataset={dataset} />
         </div>
     )
 }
