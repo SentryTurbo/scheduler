@@ -4,8 +4,6 @@ import Panel from "../../components/Panel";
 import Link from "next/link";
 import { useRouter } from 'next/router'
 
-import {BsPlusCircle} from 'react-icons/bs';
-
 import styles from '../../styles/Milestone.module.css';
 
 export default function Milestone(props){

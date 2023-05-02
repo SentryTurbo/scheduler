@@ -4,8 +4,6 @@ import {FormGeneric, InputButton, InputGeneric} from "../Modules/FormModules";
 
 export default function CreateProjectWindow(props){
     const _submit = (data) => {
-        console.log(Object.fromEntries(data.entries()));
-        
         fetch("http://localhost:80/scheduler/actions/createproject.php", {method:'post', body:data})
             .then(res => res.json())
             .then((result) => {
