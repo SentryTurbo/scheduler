@@ -3,11 +3,15 @@ import Conveyor from "../../components/Conveyor";
 import Panel from "../../components/Panel";
 import Link from "next/link";
 
+import CreateProjectWindow from "../../components/Windows/CreateProjectWindow";
+
+import {BsPlusCircle} from 'react-icons/bs';
+
 export default function Index(props){
     return(
         <Panel content={
             (
-                <Page/>
+                <Page props={props}/>
             )
         }/>
     )
@@ -57,7 +61,7 @@ function Page(props){
                 <h1>Dashboard</h1>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Projects</h2>
+                <h2>Projects <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow/>);}}/></h2>
                 <div>
                     <Conveyor href="/main/project" data={data.projects}/>
                 </div>
