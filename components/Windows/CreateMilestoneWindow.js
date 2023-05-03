@@ -9,12 +9,12 @@ export default function CreateMilestoneWindow(props){
         fetch("http://localhost:80/scheduler/actions/createmilestone.php", {method:'post', body:data})
             .then(res => res.json())
             .then((result) => {
+                props.refresh();
                 console.log(result);
             },
             (error) => {
                 console.log(error);
             })
-        
     }
 
     const dataset = [

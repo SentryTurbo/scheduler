@@ -34,7 +34,7 @@ function Page(props){
         }
     );
 
-    useEffect(()=>{
+    const refreshData = () => {
         fetch("http://localhost:80/scheduler/main.php")
             .then(res => res.json())
             .then((result) => {
@@ -47,7 +47,11 @@ function Page(props){
                 console.log(error);
                 setLoading(false);
             }
-        )
+        );
+    }
+
+    useEffect(()=>{
+        refreshData();
     },[]);
     
     if(loading)
@@ -61,7 +65,7 @@ function Page(props){
                 <h1>Dashboard</h1>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Projects <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow/>);}}/></h2>
+                <h2>Projects <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow refresh={refreshData}/>);}}/></h2>
                 <div>
                     <Conveyor href="/main/project" data={data.projects}/>
                 </div>

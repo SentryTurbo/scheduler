@@ -8,6 +8,7 @@ import {BsPlusCircle} from 'react-icons/bs';
 
 import styles from '../../styles/Project.module.css';
 
+import { InputButton } from "../../components/Modules/FormModules";
 import CreateMilestoneWindow from "../../components/Windows/CreateMilestoneWindow";
 
 export default function Project(props){
@@ -33,9 +34,7 @@ function Page(props){
         }
     );
 
-    useEffect(()=>{
-        console.log(router.query.id);
-        
+    const refreshData = () => {
         fetch("http://localhost:80/scheduler/project.php?id="+router.query.id)
             .then(res => res.json())
             .then((result) => {
@@ -48,7 +47,13 @@ function Page(props){
                 //console.log(error);
                 //setLoading(false);
             }
-        )
+        );
+    }
+
+    useEffect(()=>{
+        console.log(router.query.id);
+        
+        refreshData();
     },[router]);
     
     if(loading)
@@ -59,7 +64,16 @@ function Page(props){
     return(
         <div>
             <Link href="/main/">back</Link>
-            <h1>{data.project.name}</h1>
+            <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
+                <h1>{data.project.name}</h1>
+                <div>
+                    <InputButton onClick={()=>{
+                        props.props.setConfirm({onConfirm:() => {
+                            deleteMilestone();
+                        }})
+                    }} label='Delete Project' />
+                </div>
+            </div>
             <div className={styles['grid']}>
                 <div style={{display:'grid', gridTemplateRows:60}}>
                     <h2>Currently active milestone in progress:</h2>
@@ -72,7 +86,7 @@ function Page(props){
             </div>
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Milestones <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow projectId={router.query.id}/>);}} /></h1>
+                    <h1>Milestones <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones}/>
                 </div>
             </div>

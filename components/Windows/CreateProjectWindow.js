@@ -8,6 +8,7 @@ export default function CreateProjectWindow(props){
             .then(res => res.json())
             .then((result) => {
                 console.log(result);
+                props.refresh();
             },
             (error) => {
                 console.log(error);
