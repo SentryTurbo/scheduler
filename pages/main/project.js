@@ -8,11 +8,13 @@ import {BsPlusCircle} from 'react-icons/bs';
 
 import styles from '../../styles/Project.module.css';
 
+import CreateMilestoneWindow from "../../components/Windows/CreateMilestoneWindow";
+
 export default function Project(props){
     return(
         <Panel content={
             (
-                <Page/>
+                <Page props={props}/>
             )
         }/>
     )
@@ -70,7 +72,7 @@ function Page(props){
             </div>
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Milestones <BsPlusCircle /></h1>
+                    <h1>Milestones <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow projectId={router.query.id}/>);}} /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones}/>
                 </div>
             </div>
