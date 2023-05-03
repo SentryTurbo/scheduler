@@ -40,9 +40,15 @@ function InputGeneric(props){
 }
 
 function InputButton(props){
+    const _onClick = (e) => {
+        if(props.onClick){
+            props.onClick();
+        }
+    }
+    
     return(
         <div>
-            <button>{props.label}</button>
+            <button onClick={_onClick}>{props.label}</button>
         </div>
     )
 }
