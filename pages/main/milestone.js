@@ -4,13 +4,15 @@ import Panel from "../../components/Panel";
 import Link from "next/link";
 import { useRouter } from 'next/router'
 
+import { InputButton } from "../../components/Modules/FormModules";
+
 import styles from '../../styles/Milestone.module.css';
 
 export default function Milestone(props){
     return(
         <Panel content={
             (
-                <Page/>
+                <Page props={props}/>
             )
         }/>
     )
@@ -32,6 +34,17 @@ function Page(props){
         }
     );
 
+    const deleteMilestone = () => {
+        fetch("http://localhost:80/scheduler/actions/deletemilestone.php?id="+router.query.id, {method:'get'})
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result);
+            },
+            (error) => {
+                console.log(error);
+            })
+    }
+
     useEffect(()=>{
         fetch("http://localhost:80/scheduler/milestone.php?id="+router.query.id)
             .then(res => res.json())
@@ -46,7 +59,7 @@ function Page(props){
                 //setLoading(false);
             }
         )
-    },[]);
+    },[router]);
     
     if(loading)
         return(
@@ -56,7 +69,16 @@ function Page(props){
     return(
         <div>
             <Link href={router.query.project ? "/main/project?id="+router.query.project : "/main"}>back</Link>
-            <h1>{data.milestone.name}</h1>
+            <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
+                <h1>{data.milestone.name}</h1>
+                <div>
+                    <InputButton onClick={()=>{
+                        props.props.setConfirm({onConfirm:() => {
+                            deleteMilestone();
+                        }})
+                    }} label='Delete Milestone' />
+                </div>
+            </div>
             <h1>Unfinished Assignments</h1>
             <div>
                 <AssignmentList data={data.unfinishedassignments}/>

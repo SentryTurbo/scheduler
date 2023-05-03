@@ -7,7 +7,7 @@ import '../styles/globals.css';
 export default function MyApp({ Component, pageProps }) {
     const [windowContent, setWindowContent] = useState(null);
     const [confirmation, setConfirmation] = useState({
-        onConfirm:() => console.log('hi')
+        onConfirm:null
     });
 
     return(
@@ -15,7 +15,7 @@ export default function MyApp({ Component, pageProps }) {
             {
                 confirmation.onConfirm != null &&
                 <div style={{position:'absolute', width:'100%', zIndex:101, height:'100%'}}>
-                    <WindowBase>
+                    <WindowBase setWindow={() => {setConfirmation({onConfirm:null})}}>
                         {<ConfirmWindow confirmation={{read:confirmation, set:setConfirmation}}/>}
                     </WindowBase>
                 </div>
@@ -23,12 +23,12 @@ export default function MyApp({ Component, pageProps }) {
             {
                 windowContent &&
                 <div style={{position:'absolute', width:'100%', zIndex:100, height:'100%'}}>
-                    <WindowBase setWindow={setWindowContent}>
+                    <WindowBase setWindow={() => {setWindowContent(null)}}>
                         {windowContent}
                     </WindowBase>
                 </div>
             }
-            <Component setWindow={setWindowContent} {...pageProps} />
+            <Component setWindow={setWindowContent} setConfirm={setConfirmation} {...pageProps} />
         </div>
     ) 
 }

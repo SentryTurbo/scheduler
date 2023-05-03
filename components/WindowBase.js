@@ -2,7 +2,7 @@ import React from "react"
 
 export default function WindowBase(props){
     const _close = () => {
-        props.setWindow(null);
+        props.setWindow();
     }
 
     return (
