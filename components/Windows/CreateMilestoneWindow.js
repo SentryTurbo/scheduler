@@ -10,6 +10,7 @@ export default function CreateMilestoneWindow(props){
             .then(res => res.json())
             .then((result) => {
                 props.refresh();
+                props.setWindow(null);
                 console.log(result);
             },
             (error) => {

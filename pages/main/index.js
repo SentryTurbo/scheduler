@@ -65,7 +65,7 @@ function Page(props){
                 <h1>Dashboard</h1>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Projects <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow refresh={refreshData}/>);}}/></h2>
+                <h2>Projects <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow setWindow={props.props.setWindow} refresh={refreshData}/>);}}/></h2>
                 <div>
                     <Conveyor href="/main/project" data={data.projects}/>
                 </div>

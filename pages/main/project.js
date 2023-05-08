@@ -34,6 +34,18 @@ function Page(props){
         }
     );
 
+    const deleteProject = () => {
+        fetch("http://localhost:80/scheduler/actions/deleteproject.php?id="+router.query.id, {method:'get'})
+            .then(res => res.json())
+            .then((result) => {
+                router.push('/main/');
+                console.log(result);
+            },
+            (error) => {
+                console.log(error);
+            })
+    }
+
     const refreshData = () => {
         fetch("http://localhost:80/scheduler/project.php?id="+router.query.id)
             .then(res => res.json())
@@ -69,7 +81,7 @@ function Page(props){
                 <div>
                     <InputButton onClick={()=>{
                         props.props.setConfirm({onConfirm:() => {
-                            deleteMilestone();
+                            deleteProject();
                         }})
                     }} label='Delete Project' />
                 </div>
@@ -86,7 +98,7 @@ function Page(props){
             </div>
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Milestones <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
+                    <h1>Milestones <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones}/>
                 </div>
             </div>

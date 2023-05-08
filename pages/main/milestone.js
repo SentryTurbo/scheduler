@@ -38,6 +38,7 @@ function Page(props){
         fetch("http://localhost:80/scheduler/actions/deletemilestone.php?id="+router.query.id, {method:'get'})
             .then(res => res.json())
             .then((result) => {
+                router.push('/main/');
                 console.log(result);
             },
             (error) => {
