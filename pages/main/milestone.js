@@ -6,6 +6,9 @@ import { useRouter } from 'next/router'
 
 import { InputButton } from "../../components/Modules/FormModules";
 
+import {BsPlusCircle} from 'react-icons/bs';
+import CreateAssignmentWindow from "../../components/Windows/CreateAssignmentWindow";
+
 import styles from '../../styles/Milestone.module.css';
 
 export default function Milestone(props){
@@ -46,7 +49,7 @@ function Page(props){
             })
     }
 
-    useEffect(()=>{
+    const refreshData = () => {
         fetch("http://localhost:80/scheduler/milestone.php?id="+router.query.id)
             .then(res => res.json())
             .then((result) => {
@@ -60,6 +63,10 @@ function Page(props){
                 //setLoading(false);
             }
         )
+    }
+
+    useEffect(()=>{
+        refreshData();
     },[router]);
     
     if(loading)
@@ -80,7 +87,7 @@ function Page(props){
                     }} label='Delete Milestone' />
                 </div>
             </div>
-            <h1>Unfinished Assignments</h1>
+            <h1>Unfinished Assignments <BsPlusCircle onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
             <div>
                 <AssignmentList data={data.unfinishedassignments}/>
             </div>
