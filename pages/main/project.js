@@ -24,6 +24,8 @@ export default function Project(props){
 function Page(props){
     const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const [edit, setEdit] = useState(false);
+    const [editData, setEditData] = useState({});
 
     const [data, setData] = useState(
         {
@@ -62,6 +64,48 @@ function Page(props){
         );
     }
 
+    const editProject = async () => {
+        const JSONdata = JSON.stringify(editData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/editproject.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSONdata,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.json();
+
+        refreshData();
+
+        console.log(result);
+    }
+
+    const toggleEdit = () => {
+        if(edit){
+            console.log(editData);
+            console.log('done');
+
+            editProject();
+
+            setEdit(false);
+        }else{
+            console.log(editData);
+            
+            setEditData({'id':data.project.id, 'name':data.project.name});
+            setEdit(true);
+        }
+    }
+
+    const handleEdit = (e) => {
+        setEditData({...editData,[e.target.name]:e.target.value});
+    }
+
     useEffect(()=>{
         console.log(router.query.id);
         
@@ -77,8 +121,15 @@ function Page(props){
         <div>
             <Link href="/main/">back</Link>
             <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
-                <h1>{data.project.name}</h1>
-                <div>
+                <h1>
+                    {
+                        edit ? <input name='name' onChange={handleEdit} value={editData['name']}/> : data.project.name
+                    }
+                </h1>
+                <div style={{display:'flex', gap:10}}>
+                    <InputButton onClick={()=>{
+                        toggleEdit();
+                    }} label={edit ? "Confirm" : "Edit Project" }/>
                     <InputButton onClick={()=>{
                         props.props.setConfirm({onConfirm:() => {
                             deleteProject();
