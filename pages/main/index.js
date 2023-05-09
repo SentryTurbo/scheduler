@@ -62,22 +62,22 @@ function Page(props){
     return(
         <div>
             <div>
-                <h1>Dashboard</h1>
+                <h1>Galvenais panelis</h1>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Projects <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow setWindow={props.props.setWindow} refresh={refreshData}/>);}}/></h2>
+                <h2>Projekti <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow setWindow={props.props.setWindow} refresh={refreshData}/>);}}/></h2>
                 <div>
                     <Conveyor href="/main/project" data={data.projects}/>
                 </div>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Milestones</h2>
+                <h2>Mērķi</h2>
                 <div>
                     <Conveyor href="/main/milestone" data={data.milestones}/>
                 </div>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Assignments</h2>
+                <h2>Uzdevumi</h2>
                 <div>
                     <Conveyor href="/main/milestone" data={data.assignments}/>
                 </div>

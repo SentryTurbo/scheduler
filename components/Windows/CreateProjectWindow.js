@@ -19,7 +19,7 @@ export default function CreateProjectWindow(props){
     const dataset = [
         {
             name:'name', 
-            prettyname:'Project Name', 
+            prettyname:'Nosaukums', 
             input:{
                 type:'text',
                 name:'name',
@@ -28,7 +28,7 @@ export default function CreateProjectWindow(props){
         },
         {
             name:'description', 
-            prettyname:'Project Description', 
+            prettyname:'Apraksts', 
             input:{
                 type:'text',
                 name:'description'
@@ -45,7 +45,7 @@ export default function CreateProjectWindow(props){
     
     return (
         <div>
-            <h3>Create a project</h3>
+            <h3>Projekta izveidošana</h3>
             <FormGeneric submit={_submit} dataset={dataset} />
         </div>
     )

@@ -21,7 +21,7 @@ export default function CreateMilestoneWindow(props){
     const dataset = [
         {
             name:'name', 
-            prettyname:'Milestone Name', 
+            prettyname:'Nosaukums', 
             input:{
                 type:'text',
                 name:'name',
@@ -30,7 +30,7 @@ export default function CreateMilestoneWindow(props){
         },
         {
             name:'description', 
-            prettyname:'Milestone Description', 
+            prettyname:'Apraksts', 
             input:{
                 type:'text',
                 name:'description'
@@ -47,7 +47,7 @@ export default function CreateMilestoneWindow(props){
     
     return (
         <div>
-            <h3>Create a milestone</h3>
+            <h3>Mērķa izveidošana</h3>
             <FormGeneric submit={_submit} dataset={dataset} />
         </div>
     )

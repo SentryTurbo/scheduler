@@ -47,14 +47,14 @@ export default function AssignmentWindow(props){
                     props.setConfirm({onConfirm:() => {
                         deleteAssignment();
                     }})
-                }} label="Delete Assignment"/>
+                }} label="Izdzēst Uzdevumu"/>
             </div>
             <div>
                 <h2><EditField name='name' value={props.dataset.name} onSubmit={editAssignment}/></h2>
-                <p>due date:</p>
-                <p>reviewer:</p>
+                <p>Pabeigšanas datums:</p>
+                <p>Pārbaudītājs:</p>
                 <div>
-                    <div>description:</div>
+                    <div>Apraksts:</div>
                     <textarea>{props.dataset.description}</textarea>
                 </div>
                 <div>

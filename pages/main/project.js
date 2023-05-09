@@ -119,7 +119,7 @@ function Page(props){
 
     return(
         <div>
-            <Link href="/main/">back</Link>
+            <Link href="/main/">Atpakaļ</Link>
             <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
                 <h1>
                     {
@@ -129,27 +129,27 @@ function Page(props){
                 <div style={{display:'flex', gap:10}}>
                     <InputButton onClick={()=>{
                         toggleEdit();
-                    }} label={edit ? "Confirm" : "Edit Project" }/>
+                    }} label={edit ? "Apstiprināt" : "Rediģēt projektu" }/>
                     <InputButton onClick={()=>{
                         props.props.setConfirm({onConfirm:() => {
                             deleteProject();
                         }})
-                    }} label='Delete Project' />
+                    }} label='Izdzēst projektu' />
                 </div>
             </div>
             <div className={styles['grid']}>
                 <div style={{display:'grid', gridTemplateRows:60}}>
-                    <h2>Currently active milestone in progress:</h2>
+                    <h2>Pašlaik aktīvais mērķis:</h2>
                     <Milestone/>
                 </div>
                 <div style={{display:'grid', gridTemplateRows:60}}>
-                    <h2>Up next:</h2>
+                    <h2>Nākamais mērķis:</h2>
                     <Milestone/>
                 </div>
             </div>
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Milestones <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
+                    <h1>Mērķi <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones}/>
                 </div>
             </div>

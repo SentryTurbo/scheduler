@@ -77,7 +77,7 @@ function Page(props){
 
     return(
         <div>
-            <Link href={router.query.project ? "/main/project?id="+router.query.project : "/main"}>back</Link>
+            <Link href={router.query.project ? "/main/project?id="+router.query.project : "/main"}>Atpakaļ</Link>
             <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
                 <h1>{data.milestone.name}</h1>
                 <div>
@@ -85,14 +85,14 @@ function Page(props){
                         props.props.setConfirm({onConfirm:() => {
                             deleteMilestone();
                         }})
-                    }} label='Delete Milestone' />
+                    }} label='Izdzēst mērķi' />
                 </div>
             </div>
-            <h1>Unfinished Assignments <BsPlusCircle onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
+            <h1>Nepabeigti uzdevumi <BsPlusCircle onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
             <div>
                 <AssignmentList refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.unfinishedassignments}/>
             </div>
-            <h1>Finished Assignments</h1>
+            <h1>Pabeigti uzdevumi</h1>
             <div>
                 <AssignmentList refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.finishedassignments}/>
             </div>

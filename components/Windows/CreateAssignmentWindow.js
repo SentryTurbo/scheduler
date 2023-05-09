@@ -21,7 +21,7 @@ export default function CreateAssignmentWindow(props){
     const dataset = [
         {
             name:'name', 
-            prettyname:'Assignment Name', 
+            prettyname:'Nosaukums', 
             input:{
                 type:'text',
                 name:'name',
@@ -30,7 +30,7 @@ export default function CreateAssignmentWindow(props){
         },
         {
             name:'description', 
-            prettyname:'Assignment Description', 
+            prettyname:'Apraksts', 
             input:{
                 type:'text',
                 name:'description'
@@ -47,7 +47,7 @@ export default function CreateAssignmentWindow(props){
     
     return (
         <div>
-            <h3>Create an assignment</h3>
+            <h3>Uzdevuma izveidošana</h3>
             <FormGeneric submit={_submit} dataset={dataset} />
         </div>
     )

@@ -3,7 +3,7 @@ import { InputButton } from "../Modules/FormModules"
 export default function ConfirmWindow(props){
     return(
         <div>
-            <h2>Are you sure?</h2>
+            <h2>Vai esat pārliecināti?</h2>
             <div style={{display:'flex', justifyContent:'center'}}>
                 <div style={{display:'flex', justifyContent:'space-between', width:'40%'}}>
                     <InputButton 
@@ -12,9 +12,9 @@ export default function ConfirmWindow(props){
                             props.confirmation.set({onConfirm:null});
                         }} 
                         
-                        label="Yes"
+                        label="Jā"
                     />
-                    <InputButton onClick={() => {props.confirmation.set({onConfirm:null})}} label="No"/>
+                    <InputButton onClick={() => {props.confirmation.set({onConfirm:null})}} label="Nē"/>
                 </div>
             </div>
         </div>
