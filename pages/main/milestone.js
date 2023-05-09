@@ -25,6 +25,8 @@ export default function Milestone(props){
 function Page(props){
     const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const [edit, setEdit] = useState(false);
+    const [editData, setEditData] = useState({name:'name'});
 
     const [data, setData] = useState(
         {
@@ -66,8 +68,18 @@ function Page(props){
         )
     }
 
+    const toggleEdit = () => {
+        setEdit(!edit);
+    }
+
+    const _handleChange = (e) => {
+        setEditData({...editData, [e.target.name]:e.target.value});
+    }
+
     useEffect(()=>{
         refreshData();
+
+        setEditData({'name':data.milestone.name});
     },[router]);
     
     if(loading)
@@ -79,8 +91,9 @@ function Page(props){
         <div>
             <Link href={router.query.project ? "/main/project?id="+router.query.project : "/main"}>Atpakaļ</Link>
             <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
-                <h1>{data.milestone.name}</h1>
-                <div>
+                <h1>{edit ? <input name="name" onChange={_handleChange} value={editData.name}/> : data.milestone.name}</h1>
+                <div style={{display:'flex', gap:10}}>
+                    <InputButton label={edit ? "Apstiprināt" : "Rediģēt mērķi"} onClick={()=>{toggleEdit();}} />
                     <InputButton onClick={()=>{
                         props.props.setConfirm({onConfirm:() => {
                             deleteMilestone();
