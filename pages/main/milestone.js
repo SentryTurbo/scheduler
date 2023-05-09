@@ -8,6 +8,7 @@ import { InputButton } from "../../components/Modules/FormModules";
 
 import {BsPlusCircle} from 'react-icons/bs';
 import CreateAssignmentWindow from "../../components/Windows/CreateAssignmentWindow";
+import AssignmentWindow from "../../components/Windows/AssignmentWindow";
 
 import styles from '../../styles/Milestone.module.css';
 
@@ -89,11 +90,11 @@ function Page(props){
             </div>
             <h1>Unfinished Assignments <BsPlusCircle onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
             <div>
-                <AssignmentList data={data.unfinishedassignments}/>
+                <AssignmentList refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.unfinishedassignments}/>
             </div>
             <h1>Finished Assignments</h1>
             <div>
-                <AssignmentList data={data.finishedassignments}/>
+                <AssignmentList refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.finishedassignments}/>
             </div>
         </div>
     )
@@ -102,14 +103,14 @@ function Page(props){
 function AssignmentList(props){
     return(
         <div className={styles['list']}>
-            {props.data.map((set) => <Assignment title={set.name}/>)}
+            {props.data.map((set) => <Assignment refreshData={props.refreshData} dataset={set} setConfirm={props.setConfirm} setWindow={props.setWindow} title={set.name}/>)}
         </div>
     )
 }
 
 function Assignment(props){
     return(
-        <div className={styles['assignment']}>
+        <div className={styles['assignment']} onClick={() => {props.setWindow(<AssignmentWindow refreshData={props.refreshData} dataset={props.dataset} setConfirm={props.setConfirm} setWindow={props.setWindow}/>)}}>
             <div className={styles['assignment-info']}>
                 {props.title}
             </div>
