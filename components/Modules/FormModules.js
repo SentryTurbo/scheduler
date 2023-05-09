@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function FormGeneric(props){
     function handleSubmit(e) {
@@ -53,4 +53,36 @@ function InputButton(props){
     )
 }
 
-export {FormGeneric, InputGeneric, InputButton};
+function EditField(props){
+    const [value, setValue] = useState('');
+
+    useEffect(()=>{
+        setValue(props.value);
+    }, []);
+
+    const _handleChange = (e) =>{
+        setValue(e.target.value);
+
+        if(props.onChange){
+            props.onChange({name:props.name, value:e.target.value});
+        }
+    }
+
+    const _submitChange = e => {
+        if(value !== props.value){
+            console.log('hehe');
+
+            if(props.onSubmit){
+                props.onSubmit({name:props.name, value:e.target.value});
+            }
+        }
+    }
+
+    return(
+        <div>
+            <input name={props.name} value={value} onChange={_handleChange} onBlur={_submitChange}/>
+        </div>
+    )
+}
+
+export {FormGeneric, InputGeneric, InputButton, EditField};
