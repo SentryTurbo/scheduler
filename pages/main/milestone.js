@@ -68,8 +68,34 @@ function Page(props){
         )
     }
 
-    const toggleEdit = () => {
+    const toggleEdit = async () => {
         setEdit(!edit);
+
+        if(edit){
+            const sendData = {...editData,['id']:data.milestone.id};
+
+            const JSONdata = JSON.stringify(sendData);
+            const endpoint = 'http://localhost:80/scheduler/actions/editmilestone.php';
+
+            const options = {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body: JSONdata,
+            };
+
+            const response = await fetch(endpoint,options);
+            const result = await response.text();
+
+            console.log(result);
+
+            refreshData();
+        }
+
+        if(!edit){
+            setEditData({'name':data.milestone.name});
+        }
     }
 
     const _handleChange = (e) => {
