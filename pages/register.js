@@ -2,15 +2,14 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import { FormGeneric } from '../components/Modules/FormModules';
-import { cookies } from 'next/headers';
 import { useRouter } from 'next/router';
 
-export default function Home() {
-  const router = useRouter();
-
-  const _submit = async (data) => {
-        const endpoint = 'http://localhost:80/scheduler/auth/login.php';
-      
+export default function Register(props){
+    const router = useRouter();
+    
+    const _submit = async (data) => {
+        const endpoint = 'http://localhost:80/scheduler/auth/register.php';
+        
         const options = {
             method:'POST',
             body: data,
@@ -20,15 +19,13 @@ export default function Home() {
 
         const result = await response.text();
 
-        if(result != "ERROR"){
-          localStorage.setItem('auth', result);
-
-          router.push('/main/');
+        if(result === "true"){
+            router.push('/');
         }
         //props.refreshData();
         console.log(result);
     }
-  
+    
     const dataset = [
       {
           name:'username', 
@@ -56,12 +53,12 @@ export default function Home() {
           }
       }
     ]
-  
-  return (
-    <div>
-      <FormGeneric submit={_submit} dataset={dataset} />
-      <br/>
-      <Link href="/register">Register</Link>
-    </div>
-  )
+    
+    return (
+      <div>
+        <FormGeneric submit={_submit} dataset={dataset} />
+        <br/>
+        <Link href="/">Login</Link>
+      </div>
+    )
 }
