@@ -13,7 +13,7 @@ import CreateMilestoneWindow from "../../components/Windows/CreateMilestoneWindo
 
 export default function Project(props){
     return(
-        <Panel content={
+        <Panel setWindow={props.setWindow} setConfirm={props.setConfirm} content={
             (
                 <Page props={props}/>
             )

@@ -14,7 +14,7 @@ import styles from '../../styles/Milestone.module.css';
 
 export default function Milestone(props){
     return(
-        <Panel content={
+        <Panel setWindow={props.setWindow} setConfirm={props.setConfirm} content={
             (
                 <Page props={props}/>
             )
