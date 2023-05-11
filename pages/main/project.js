@@ -10,6 +10,7 @@ import styles from '../../styles/Project.module.css';
 
 import { InputButton } from "../../components/Modules/FormModules";
 import CreateMilestoneWindow from "../../components/Windows/CreateMilestoneWindow";
+import ProjectMembers from "../../components/Windows/ProjectMembers";
 
 export default function Project(props){
     return(
@@ -127,6 +128,9 @@ function Page(props){
                     }
                 </h1>
                 <div style={{display:'flex', gap:10}}>
+                    <InputButton onClick={()=>{
+                        props.props.setWindow(<ProjectMembers setConfirm={props.props.setConfirm} data={data}/>);
+                    }} label={edit ? "Apstiprināt" : "Pārvaldīt projekta dalībniekus" }/>
                     <InputButton onClick={()=>{
                         toggleEdit();
                     }} label={edit ? "Apstiprināt" : "Rediģēt projektu" }/>

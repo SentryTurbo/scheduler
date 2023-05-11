@@ -85,4 +85,19 @@ function EditField(props){
     )
 }
 
-export {FormGeneric, InputGeneric, InputButton, EditField};
+function TinyWindow(p){
+    return(
+        <div style={{position:'absolute', left:'50%', transform:'translate(-50%, 25%)', width:400, minHeight:320, backgroundColor:'rgb(235,235,235)', boxShadow:'rgba(25,0,0,0.2) 0px 5px 20px 5px'}}>
+            <div style={{display:'flex', justifyContent:'flex-end', width:'100%', height:25, backgroundColor:'rgba(0,0,0,0.2)'}}>
+                <div onClick={()=>{p.setSelf(null)}} style={{width:35, textAlign:'center', paddingTop:5}}>
+                    X
+                </div>
+            </div>
+            <div style={{padding:10}}>
+                {p.children}
+            </div>
+        </div>
+    )
+}
+
+export {FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};
