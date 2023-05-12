@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function FormGeneric(props){
     function handleSubmit(e) {
@@ -100,4 +100,93 @@ function TinyWindow(p){
     )
 }
 
-export {FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};
+function PermsForm(p){
+    const [values, setValues] = useState(
+        {
+            //a - add, d - delete, e - edit
+            //milestones
+            a_m:false,
+            d_m:false,
+            e_m:false,
+            //assignments
+            a_a:false,
+            d_a:false,
+            e_a:false,
+            //members
+            a_mb:false,
+            d_mb:false,
+            e_mb:false,
+        }
+    );
+
+    p.v(values);
+
+    const parsePerms = () => {
+        const perms = p.d.perms.split(",");
+        console.log(perms);
+
+        if(perms[0] === "all"){
+            //make a copy
+            let copy = Object.assign({}, values);
+            
+            //set all values to true
+            for(const[key,value] of Object.entries(copy)){
+                copy[key] = true;
+            }
+
+            //apply changes
+            setValues(copy);
+        }else{
+            //make a copy
+            let copy = Object.assign({}, values);
+            
+            //set corresponding values to true
+            perms.forEach(val => {
+                copy[val] = true;
+            });
+
+            //apply changes
+            setValues(copy);
+        }
+
+        console.log(values);
+    }
+
+    const dataset = [
+        {name:'a_m',   prettyname:'Add milestones'},
+        {name:'d_m',   prettyname:'Delete milestones'},
+        {name:'e_m',   prettyname:'Edit milestones'},
+        {name:'a_a',   prettyname:'Add assignments'},
+        {name:'d_a',   prettyname:'Delete assignments'},
+        {name:'e_a',   prettyname:'Edit assignments'},
+        {name:'a_mb',   prettyname:'Add members'},
+        {name:'d_mb',   prettyname:'Delete members'},
+        {name:'e_mb',   prettyname:'Edit members'},
+    ]
+
+    useEffect(()=>{
+        parsePerms();
+    }, []);
+    
+    return(
+        <div style={{display:'grid', gridTemplateColumns:'50% 50%'}}>
+            {dataset.map((val) => 
+                <PermsCheck values={values} setValues={setValues} d={val} checked={values[val.name]} />
+            )}
+        </div>
+    )
+}
+
+function PermsCheck(p){
+    const check = (e) => {
+        p.setValues({...p.values, [p.d.name]:!p.checked})
+    }
+    
+    return(
+        <div onClick={check}>
+            <input type="checkbox" readOnly checked={p.checked}/> {p.d.prettyname}
+        </div>
+    )
+}
+
+export {PermsForm, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};

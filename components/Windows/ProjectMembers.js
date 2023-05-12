@@ -1,5 +1,5 @@
 import react, { useEffect, useState } from "react";
-import { FormGeneric, InputButton, TinyWindow } from "../Modules/FormModules";
+import { FormGeneric, InputButton, PermsForm, TinyWindow } from "../Modules/FormModules";
 
 export default function ProjectMembers(p){
     const [members, setMembers] = useState([]);
@@ -46,7 +46,7 @@ export default function ProjectMembers(p){
             <br/>
             <div style={{display:'flex', flexDirection:'column', gap:10}}>
                 {members.map((val)=>
-                    <Member refresh={refresh} global={p.data} setConfirm={p.setConfirm} d={val}/>
+                    <Member refresh={refresh} global={p.data} setConfirm={p.setConfirm} setOverlay={setOverlay} d={val}/>
                 )}
             </div>
         </div>
@@ -84,7 +84,10 @@ function Member(p){
     return(
         <div style={{height:30, backgroundColor:'rgba(0,0,0,0.1)', display:'flex', flexWrap:'wrap', alignContent:'center', justifyContent:'space-between', paddingLeft:10, paddingRight:10}}>
             <div>{p.d.username}</div>
-            <div><InputButton label="Izmest" onClick={() => { p.setConfirm({onConfirm:() => {
+            <div style={{display:'flex', gap:10}}>
+                <InputButton label="Atļaujas" onClick={() => {p.setOverlay(<SetPermsOverlay refresh={p.refresh} global={p.global} d={p.d} setOverlay={p.setOverlay} />)}}/>
+
+                <InputButton label="Izmest" onClick={() => { p.setConfirm({onConfirm:() => {
                 remove();
             }})}}/></div>
         </div>
@@ -148,6 +151,48 @@ function AddMemberOverlay(p){
         <TinyWindow setSelf={p.setOverlay}>
             <h3>Lietotāja pievienošana</h3>
             <FormGeneric submit={_submit} dataset={dataset}/>
+        </TinyWindow>
+    )
+}
+
+function SetPermsOverlay(p){
+    const [values, setValues] = useState({});
+
+    const submit = async () => {
+        const data = {
+            action:'edit',
+            perms:JSON.stringify(values),
+            user:p.d.id,
+            project:p.global.project.id,
+            auth:localStorage.getItem("auth"),
+        }
+
+        const endpoint = 'http://localhost:80/scheduler/actions/membersproject.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        p.refresh();
+        p.setOverlay(null);
+
+        console.log(result);
+    }
+    
+    return (
+        <TinyWindow setSelf={p.setOverlay}>
+            <h4>Lietotāja  atļauju pārvalde</h4>
+            <PermsForm v={setValues} d={p.d}/>
+            <br/>
+            <InputButton onClick={submit} label="Apstiprināt" />
         </TinyWindow>
     )
 }
