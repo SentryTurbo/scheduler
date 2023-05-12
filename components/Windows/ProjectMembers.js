@@ -120,6 +120,7 @@ function AddMemberOverlay(p){
         data.append("action", "add");
         data.append("project", p.data.project.id);
         data.append("perms", "all");
+        data.append("auth", localStorage.getItem("auth"));
 
         var object = {};
         data.forEach((value, key) => object[key] = value);

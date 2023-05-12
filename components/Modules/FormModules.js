@@ -122,7 +122,8 @@ function PermsForm(p){
     p.v(values);
 
     const parsePerms = () => {
-        const perms = p.d.perms.split(",");
+        var perms = p.d.perms.split(",");
+        perms = perms.filter((str) => str != '');
         console.log(perms);
 
         if(perms[0] === "all"){
