@@ -1,5 +1,6 @@
 import react from "react"
 import { EditField, InputButton } from "../Modules/FormModules"
+import SubmissionWindow from "./SubmissionWindow";
 
 
 export default function AssignmentWindow(props){
@@ -60,7 +61,10 @@ export default function AssignmentWindow(props){
     
     return(
         <div>
-            <div style={{display:'flex', justifyContent:'flex-end'}}>
+            <div style={{display:'flex', justifyContent:'flex-end', gap:10}}>
+                <InputButton onClick={() =>{
+                    props.setWindow(<SubmissionWindow dataset={props.dataset} setWindow={props.setWindow} setConfirm={props.setConfirm}/>);
+                }} label="Apskatīt Risinājumus" />
                 <InputButton onClick={()=>{
                     props.setConfirm({onConfirm:() => {
                         deleteAssignment();
@@ -69,8 +73,6 @@ export default function AssignmentWindow(props){
             </div>
             <div>
                 <h2><EditField name='name' value={props.dataset.name} onSubmit={editAssignment}/></h2>
-                <p>Pabeigšanas datums:</p>
-                <p>Pārbaudītājs:</p>
                 <div>
                     <div>Apraksts:</div>
                     <textarea>{props.dataset.description}</textarea>

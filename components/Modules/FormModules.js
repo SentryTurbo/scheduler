@@ -104,6 +104,9 @@ function PermsForm(p){
     const [values, setValues] = useState(
         {
             //a - add, d - delete, e - edit
+            //project
+            e_p:false,
+            d_p:false,
             //milestones
             a_m:false,
             d_m:false,
@@ -192,4 +195,25 @@ function PermsCheck(p){
     )
 }
 
-export {PermsForm, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};
+function Comments(p){
+    return (
+        <div>
+            <Comment />
+        </div>
+    )
+}
+
+function Comment(p){
+    return (
+        <div style={{backgroundColor:'rgba(255,0,0,0.05)', minHeight:100, padding:5}}>
+            <div style={{fontWeight:"bold"}}>
+                Name
+            </div>
+            <div style={{marginTop:5}}>
+                LMAO
+            </div>
+        </div>
+    )
+}
+
+export {PermsForm, Comments, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};
