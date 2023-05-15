@@ -154,12 +154,14 @@ function PermsForm(p){
     }
 
     const dataset = [
-        {name:'a_m',   prettyname:'Add milestones'},
-        {name:'d_m',   prettyname:'Delete milestones'},
-        {name:'e_m',   prettyname:'Edit milestones'},
-        {name:'a_a',   prettyname:'Add assignments'},
-        {name:'d_a',   prettyname:'Delete assignments'},
-        {name:'e_a',   prettyname:'Edit assignments'},
+        {name:'d_p',    prettyname:'Delete project'},
+        {name:'e_p',    prettyname:'Edit project'},
+        {name:'a_m',    prettyname:'Add milestones'},
+        {name:'d_m',    prettyname:'Delete milestones'},
+        {name:'e_m',    prettyname:'Edit milestones'},
+        {name:'a_a',    prettyname:'Add assignments'},
+        {name:'d_a',    prettyname:'Delete assignments'},
+        {name:'e_a',    prettyname:'Edit assignments'},
         {name:'a_mb',   prettyname:'Add members'},
         {name:'d_mb',   prettyname:'Delete members'},
         {name:'e_mb',   prettyname:'Edit members'},

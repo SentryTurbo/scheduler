@@ -4,7 +4,8 @@ import { FormGeneric } from "../Modules/FormModules";
 
 export default function CreateMilestoneWindow(props){
     const _submit = (data) => {
-        data.append('project_id', props.projectId)
+        data.append('project_id', props.projectId);
+        data.append('auth', localStorage.getItem('auth'));
 
         fetch("http://localhost:80/scheduler/actions/createmilestone.php", {method:'post', body:data})
             .then(res => res.json())

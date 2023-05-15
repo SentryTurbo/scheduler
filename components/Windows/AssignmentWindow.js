@@ -4,7 +4,11 @@ import { EditField, InputButton } from "../Modules/FormModules"
 
 export default function AssignmentWindow(props){
     const editAssignment = async (e) => {
-        var data = {...e, ['id']:props.dataset.id};
+        var data = {
+            ...e, 
+            ['id']:props.dataset.id,
+            ['auth']:localStorage.getItem("auth")
+        };
         
         console.log(data);
 
@@ -28,16 +32,30 @@ export default function AssignmentWindow(props){
         console.log(result);
     }
     
-    const deleteAssignment = () => {
-        fetch("http://localhost:80/scheduler/actions/deleteassignment.php?id="+props.dataset.id, {method:'get'})
-            .then(res => res.json())
-            .then((result) => {
-                props.refreshData();
-                props.setWindow(null);
+    const deleteAssignment = async () => {
+        var sendData = {
+            'id':props.dataset.id,
+            'auth':localStorage.getItem("auth")
+        };
+        
+        const JSONdata = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/deleteassignment.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
             },
-            (error) => {
-                console.log(error);
-            })
+            body: JSONdata,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        props.refreshData();
+        props.setWindow(null);
     }
     
     return(

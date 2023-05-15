@@ -37,16 +37,29 @@ function Page(props){
         }
     );
 
-    const deleteProject = () => {
-        fetch("http://localhost:80/scheduler/actions/deleteproject.php?id="+router.query.id, {method:'get'})
-            .then(res => res.json())
-            .then((result) => {
-                router.push('/main/');
-                console.log(result);
+    const deleteProject = async () => {
+        var sendData = {
+            'id':router.query.id,
+            'auth':localStorage.getItem("auth")
+        };
+        
+        const JSONdata = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/deleteproject.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
             },
-            (error) => {
-                console.log(error);
-            })
+            body: JSONdata,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        router.push('/main/');
     }
 
     const refreshData = () => {
@@ -66,7 +79,11 @@ function Page(props){
     }
 
     const editProject = async () => {
-        const JSONdata = JSON.stringify(editData);
+        const sendData = {...editData,
+            ['auth']:localStorage.getItem("auth")
+        }
+        
+        const JSONdata = JSON.stringify(sendData);
 
         const endpoint = 'http://localhost:80/scheduler/actions/editproject.php';
 
@@ -130,7 +147,7 @@ function Page(props){
                 <div style={{display:'flex', gap:10}}>
                     <InputButton onClick={()=>{
                         props.props.setWindow(<ProjectMembers setConfirm={props.props.setConfirm} data={data}/>);
-                    }} label={edit ? "Apstiprināt" : "Pārvaldīt projekta dalībniekus" }/>
+                    }} label="Pārvaldīt projekta dalībniekus"/>
                     <InputButton onClick={()=>{
                         toggleEdit();
                     }} label={edit ? "Apstiprināt" : "Rediģēt projektu" }/>
