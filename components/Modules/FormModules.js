@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import {BsFillTrash3Fill} from 'react-icons/bs';
 
 function FormGeneric(props){
     function handleSubmit(e) {
@@ -196,24 +197,193 @@ function PermsCheck(p){
 }
 
 function Comments(p){
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        refresh();
+    }, []);
+    
+    const refresh = async () => {
+        const sendData = {
+            'auth':localStorage.getItem("auth"),
+            'link':p.fetch.link,
+            'linktype':p.fetch.linktype,
+            'action':'view'
+        }
+
+        const json = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/comments.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.json();
+
+        setLoading(false);
+        setData(result);
+
+        console.log(result);
+    }
+
+    if(loading)
+        return(
+            <div>loading...</div>
+        )
+
     return (
         <div>
-            <Comment />
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <div>Komentāri:</div>
+                <InputButton
+                    onClick={()=>{p.setOverlay(<CreateCommentWindow fetch={p.fetch} refresh={refresh} setSelf={p.setOverlay}/>)}}
+                    label="Pievienot"
+                /> 
+            </div>
+            <div style={{marginTop:10, maxHeight:150, overflowY:'auto', display:'flex', flexDirection:'column', gap:10}}>
+                {data.map((set) => <Comment d={set} fetch={p.fetch} refresh={refresh}/>)}
+            </div>
         </div>
     )
 }
 
 function Comment(p){
+    const deleteComment = async () => {
+        const sendData = {
+            'id':p.d.id,
+            'auth':localStorage.getItem("auth"),
+            'link':p.fetch.link,
+            'linktype':p.fetch.linktype,
+            'action':'delete'
+        }
+
+        const json = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/comments.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+        console.log(result);
+
+        p.refresh();
+    }
+    
     return (
-        <div style={{backgroundColor:'rgba(255,0,0,0.05)', minHeight:100, padding:5}}>
-            <div style={{fontWeight:"bold"}}>
-                Name
+        <div style={{backgroundColor:'rgba(255,0,0,0.05)', height:'fit-content', padding:5}}>
+            <div style={{display:'flex', justifyContent:'space-between', fontWeight:"bold"}}>
+                <div>{p.d.username}</div>
+                {p.d.own ?
+                <div><BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteComment}/></div>
+                :
+                <></>
+                }
             </div>
-            <div style={{marginTop:5}}>
-                LMAO
+            <div style={{marginTop:2, wordWrap:'break-word'}}>
+                {p.d.content}
             </div>
         </div>
     )
 }
 
-export {PermsForm, Comments, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};
+function CreateCommentWindow(p){
+    const _submit = async (data) => {
+        data.append("auth", localStorage.getItem("auth"));
+        data.append("link", p.fetch.link);
+        data.append("linktype", p.fetch.linktype);
+        data.append("action", "add");
+
+        var object = {};
+        data.forEach((value, key) => object[key] = value);
+        var json = JSON.stringify(object);
+
+        console.log(json);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/comments.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+        console.log(result);
+
+
+        p.refresh();
+        p.setSelf(null);
+    }
+    
+    const dataset = [
+        {
+            name:'content', 
+            prettyname:'Komentārs', 
+            input:{
+                type:'text',
+                name:'content',
+                required:true
+            }
+        },
+        {
+            name:'submit',
+            prettyname:'',
+            input:{
+                type:'submit'
+            }
+        }
+    ];
+
+    return(
+        <TinyWindow setSelf={p.setSelf}>
+            <h3>Komentāra pievienošana</h3>
+            <FormGeneric submit={_submit} dataset={dataset}/>
+        </TinyWindow>
+    )
+}
+
+function FileAttachments(p){
+    return (
+        <div>
+            <div>Pielikumi:</div>
+            <div style={{display:'grid', gridTemplateColumns:'32% 32% 32%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
+                <FileAttachment/>
+                <FileAttachment/>
+                <FileAttachment/>
+                <FileAttachment/>
+            </div>
+        </div>
+    )
+}
+
+function FileAttachment(p){
+    return (
+        <div style={{backgroundColor:'rgba(255,0,0,0.1)', height:35}}>
+            <div style={{display:'flex', flexWrap:'wrap', alignContent:'center', paddingLeft:5, height:'100%'}}>
+                Pielikums (piemērs)
+            </div>
+        </div>
+    )
+}
+
+export {PermsForm, Comments, FileAttachments, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { InputButton, TinyWindow, FormGeneric, Comments } from "../Modules/FormModules";
+import { InputButton, TinyWindow, FormGeneric, Comments, FileAttachments } from "../Modules/FormModules";
 import AssignmentWindow from "./AssignmentWindow";
 
 export default function SubmissionWindow(p){
@@ -146,10 +146,34 @@ function SubmissionCreateWindow(p){
 function SubmissionViewWindow(p){
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [edit, setEdit] = useState(false);
+    const [editData, setEditData] = useState({});
+    const [overlay, setOverlay] = useState(null);
     
     useEffect(()=>{
         refresh();
+
+        setEditData(data);
     }, []);
+
+    const toggleEdit = () => {
+        setEdit(!edit);
+
+        if(!edit){
+            //set to false
+            setEditData(data);
+            console.log(editData);
+        }else{
+            //set to true
+            submitEdit();
+        }
+    }
+
+    const handleEdit = (e) => {
+        if(edit){
+            setEditData({...editData, [e.target.name]:e.target.value});
+        }
+    }
 
     const refresh = async () => {
         const sendData = {
@@ -177,6 +201,39 @@ function SubmissionViewWindow(p){
 
         setLoading(false);
         setData(result);
+        setEditData(result);
+
+        console.log(result);
+    }
+
+    const submitEdit = async () => {
+        const sendData = {
+            'auth':localStorage.getItem("auth"),
+            'assignment':p.global.id,
+            'id':p.dataset.id,
+            'data':JSON.stringify(editData),
+            'action':'edit'
+        }
+
+        const json = JSON.stringify(sendData);
+        console.log(json);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        setLoading(false);
+        refresh();
 
         console.log(result);
     }
@@ -188,45 +245,39 @@ function SubmissionViewWindow(p){
 
     return (
         <div>
-            <InputButton onClick={() =>{
+            {overlay != null ? overlay : <></>}
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <InputButton onClick={() =>{
                     p.setWindow(<SubmissionWindow setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.global}/>);
-            }} label="Atgriezties" />
+                }} label="Atgriezties" />
+                <div>
+                    <InputButton onClick={() =>{
+                        toggleEdit();
+                    }} label={edit ? "Apstiprināt" : "Rediģēt"}/>
+                </div>
+            </div>
+            
             <div style={{display:'flex', flexDirection:'column', gap:20}}>
-                <h2>{p.dataset.name}</h2>
+                <div style={{marginTop:10, fontWeight:'bold', fontSize:'1.4em'}}>
+                    {edit ? <input name="name" onChange={handleEdit} value={editData['name']} /> : 
+                        <div>{data.name}</div>}
+                </div>
                 <div>
                     <div>Apraksts:</div>
-                    <textarea style={{marginTop:10, width:'100%', height:60, backgroundColor:'rgba(0,0,0,0.1)', border:'none', paddingLeft:5, paddingTop:5}} value={'banans'}/>
+                    <textarea name="description" style={{marginTop:10, width:'100%', height:60, backgroundColor:'rgba(255,0,0,0.05)', border:'none', paddingLeft:5, paddingTop:5}} value={editData['description']} onChange={handleEdit}/>
                 </div>
                 <div>
-                    <div>Pielikumi:</div>
-                    <div style={{display:'grid', gridTemplateColumns:'48% 48%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                        <FileAttachment/>
-                    </div>
+                    <FileAttachments />
                 </div>
                 <div>
-                    <Comments />
+                    <Comments fetch={{
+                        'link':data.id,
+                        'linktype':'s'
+                    }} 
+                        setOverlay={setOverlay}
+                    />
                 </div>
             </div>
-            
-        </div>
-    )
-}
-
-function FileAttachment(p){
-    return (
-        <div style={{backgroundColor:'rgba(255,0,0,0.1)', height:35}}>
-            <div style={{display:'flex', flexWrap:'wrap', alignContent:'center', paddingLeft:5, height:'100%'}}>
-            Pielikums (piemērs)
-            </div>
-            
         </div>
     )
 }
