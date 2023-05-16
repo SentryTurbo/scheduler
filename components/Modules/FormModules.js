@@ -363,26 +363,156 @@ function CreateCommentWindow(p){
 }
 
 function FileAttachments(p){
+    const [data,setData] = useState([]);
+    const [loading,setLoading] = useState(true);
+
+    const refresh = async () => {
+        const sendData = {
+            'auth':localStorage.getItem("auth"),
+            'link':p.fetch.link,
+            'linktype':p.fetch.linktype,
+            'action':'view'
+        }
+
+        const json = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/files.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.json();
+
+        setLoading(false);
+        setData(result);
+
+        console.log(result);
+    }
+
+    useEffect(()=>{
+        refresh();
+    }, [])
+
+    if(loading)
+        return(
+            <div>loading..</div>
+        )
+
     return (
         <div>
-            <div>Pielikumi:</div>
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <div>Pielikumi:</div>
+                <InputButton
+                    onClick={()=>{p.setOverlay(<AddFileAttachmentWindow refresh={refresh} setSelf={p.setOverlay} fetch={p.fetch}/>)}}
+                    label="Pievienot"
+                />
+            </div>
             <div style={{display:'grid', gridTemplateColumns:'32% 32% 32%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
-                <FileAttachment/>
-                <FileAttachment/>
-                <FileAttachment/>
-                <FileAttachment/>
+                {data.map((set) => <FileAttachment refresh={refresh} d={set} />)}
             </div>
         </div>
     )
 }
 
 function FileAttachment(p){
+    const deleteAttachment = async () => {
+        const sendData = {
+            'id':p.d.id,
+            'url':p.d.url,
+            'auth':localStorage.getItem("auth"),
+            'action':'delete'
+        }
+
+        const json = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/files.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+        console.log(result);
+
+        p.refresh();
+    }
+    
     return (
         <div style={{backgroundColor:'rgba(255,0,0,0.1)', height:35}}>
-            <div style={{display:'flex', flexWrap:'wrap', alignContent:'center', paddingLeft:5, height:'100%'}}>
-                Pielikums (piemērs)
+            <div style={{display:'flex', flexWrap:'wrap', alignContent:'center', paddingLeft:5, paddingRight:5, height:'100%'}}>
+                <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
+                    <div>
+                        {p.d.type}
+                    </div>
+                    <div>
+                        <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/>
+                    </div>
+                </div>
             </div>
         </div>
+    )
+}
+
+function AddFileAttachmentWindow(p){
+    const _submit = async (data) => {
+        data.append("auth", localStorage.getItem("auth"));
+        data.append("link", p.fetch.link);
+        data.append("linktype", p.fetch.linktype);
+        data.append("action", "upload");
+
+        const endpoint = 'http://localhost:80/scheduler/actions/files.php';
+
+        const options = {
+            method:'POST',
+            body: data,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+        console.log(result);
+
+        p.refresh();
+        p.setSelf(null);
+    }
+
+    const dataset = [
+        {
+            name:'upfile', 
+            prettyname:'Pielikums', 
+            input:{
+                type:'file',
+                name:'upfile',
+                required:true
+            }
+        },
+        {
+            name:'submit',
+            prettyname:'',
+            input:{
+                type:'submit'
+            }
+        }
+    ];
+
+    return (
+        <TinyWindow setSelf={p.setSelf}>
+            <h3>Pielikuma pievienošana</h3>
+            <FormGeneric submit={_submit} dataset={dataset}/>
+        </TinyWindow>
     )
 }
 

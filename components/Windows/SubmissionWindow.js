@@ -267,7 +267,12 @@ function SubmissionViewWindow(p){
                     <textarea name="description" style={{marginTop:10, width:'100%', height:60, backgroundColor:'rgba(255,0,0,0.05)', border:'none', paddingLeft:5, paddingTop:5}} value={editData['description']} onChange={handleEdit}/>
                 </div>
                 <div>
-                    <FileAttachments />
+                    <FileAttachments fetch={{
+                        'link':data.id,
+                        'linktype':'s'
+                    }} 
+                        setOverlay={setOverlay} 
+                    />
                 </div>
                 <div>
                     <Comments fetch={{
