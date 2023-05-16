@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {BsFillTrash3Fill} from 'react-icons/bs';
 
@@ -455,7 +456,7 @@ function FileAttachment(p){
             <div style={{display:'flex', flexWrap:'wrap', alignContent:'center', paddingLeft:5, paddingRight:5, height:'100%'}}>
                 <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
                     <div>
-                        {p.d.type}
+                        <a href={"http://localhost:80/scheduler/scheduler/"+p.d.url} target="blank">{p.d.type}</a>
                     </div>
                     <div>
                         <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/>
