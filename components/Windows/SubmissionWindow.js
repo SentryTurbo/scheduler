@@ -54,17 +54,19 @@ export default function SubmissionWindow(p){
             {overlay != null ? overlay : <></>}
             <div style={{display:'flex', justifyContent:'space-between', gap:10}}>
                 <InputButton onClick={() =>{
-                    p.setWindow(<AssignmentWindow setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.dataset}/>);
+                    p.setWindow(<AssignmentWindow refreshData={p.refreshData} setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.dataset}/>);
                 }} label="Atgriezties" />
+                {data.add ?
                 <InputButton onClick={() => {
-                    setOverlay(<SubmissionCreateWindow refresh={refresh} dataset={p.dataset} setWindow={p.setWindow} setSelf={setOverlay} />);
+                    setOverlay(<SubmissionCreateWindow refreshData={p.refreshData} refresh={refresh} dataset={p.dataset} setConfirm={p.setConfirm} setWindow={p.setWindow} setSelf={setOverlay} />);
                 }} label="Izveidot risinājumu" />
+                : <></>}
             </div>
             <div>
                 Risinājumi:
                 <div style={{display:'flex', marginTop:10, flexDirection:'column', gap:10,}}>
                     {
-                        data.map((set) => <Submission setConfirm={p.setConfirm} global={p.dataset} setWindow={p.setWindow} d={set} />)
+                        data.submissions.map((set) => <Submission refreshData={p.refreshData} setConfirm={p.setConfirm} global={p.dataset} setWindow={p.setWindow} d={set} />)
                     }
                 </div>
             </div>
@@ -74,7 +76,7 @@ export default function SubmissionWindow(p){
 
 function Submission(p){
     const _onClick = () => {
-        p.setWindow(<SubmissionViewWindow setConfirm={p.setConfirm} dataset={p.d} global={p.global} setWindow={p.setWindow}/>);
+        p.setWindow(<SubmissionViewWindow refreshData={p.refreshData} setConfirm={p.setConfirm} dataset={p.d} global={p.global} setWindow={p.setWindow}/>);
     }
     
     return (
@@ -115,7 +117,7 @@ function SubmissionCreateWindow(p){
         const result = await response.text();
 
         p.refresh();
-        p.setWindow(<SubmissionViewWindow dataset={JSON.parse(result)} global={p.dataset} setWindow={p.setWindow}/>);
+        p.setWindow(<SubmissionViewWindow refreshData={p.refreshData} setConfirm={p.setConfirm} dataset={JSON.parse(result)} global={p.dataset} setWindow={p.setWindow}/>);
         console.log(result);
     }
     
@@ -267,7 +269,7 @@ function SubmissionViewWindow(p){
         const result = await response.text();
         console.log(result);
 
-        p.setWindow(<SubmissionWindow dataset={p.global} setWindow={p.setWindow} setConfirm={p.setConfirm} />);
+        p.setWindow(<SubmissionWindow refreshData={p.refreshData} dataset={p.global} setWindow={p.setWindow} setConfirm={p.setConfirm} />);
     }
 
     if(loading)
@@ -280,17 +282,21 @@ function SubmissionViewWindow(p){
             {overlay != null ? overlay : <></>}
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <InputButton onClick={() =>{
-                    p.setWindow(<SubmissionWindow setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.global}/>);
+                    p.setWindow(<SubmissionWindow refreshData={p.refreshData} setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.global}/>);
                 }} label="Atgriezties" />
                 <div style={{display:'flex', gap:5}}>
+                    {data.own ? 
                     <InputButton onClick={() =>{
                         toggleEdit();
                     }} label={edit ? "Apstiprināt" : "Rediģēt"}/>
+                    : <></> }
+                    {data.own ? 
                     <InputButton onClick={() =>{
                         p.setConfirm({onConfirm:() => {
                             deleteSubmission();
                         }})
                     }} label="Dzēst" />
+                    : <></> }
                 </div>
             </div>
             
@@ -309,6 +315,7 @@ function SubmissionViewWindow(p){
                         'linktype':'s'
                     }} 
                         setOverlay={setOverlay} 
+                        edit={edit}
                     />
                 </div>
                 <div>

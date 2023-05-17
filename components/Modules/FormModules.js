@@ -121,6 +121,13 @@ function PermsForm(p){
             a_mb:false,
             d_mb:false,
             e_mb:false,
+            //submissions
+            a_s:false,
+            e_s:false,
+            //files
+            a_f:false,
+            //comments
+            a_c:false,
         }
     );
 
@@ -159,17 +166,21 @@ function PermsForm(p){
     }
 
     const dataset = [
-        {name:'d_p',    prettyname:'Delete project'},
-        {name:'e_p',    prettyname:'Edit project'},
-        {name:'a_m',    prettyname:'Add milestones'},
-        {name:'d_m',    prettyname:'Delete milestones'},
-        {name:'e_m',    prettyname:'Edit milestones'},
-        {name:'a_a',    prettyname:'Add assignments'},
-        {name:'d_a',    prettyname:'Delete assignments'},
-        {name:'e_a',    prettyname:'Edit assignments'},
-        {name:'a_mb',   prettyname:'Add members'},
-        {name:'d_mb',   prettyname:'Delete members'},
-        {name:'e_mb',   prettyname:'Edit members'},
+        {name:'d_p',    prettyname:'Dzēst      projektu'},
+        {name:'e_p',    prettyname:'Rediģēt    projektu'},
+        {name:'a_m',    prettyname:'Pievienot  mērķus'},
+        {name:'d_m',    prettyname:'Dzēst      mērķus'},
+        {name:'e_m',    prettyname:'Rediģēt    mērķus'},
+        {name:'a_a',    prettyname:'Pievienot  uzdevumus'},
+        {name:'d_a',    prettyname:'Dzēst      uzdevumus'},
+        {name:'e_a',    prettyname:'Rediģēt    uzdevumus'},
+        {name:'a_mb',   prettyname:'Pievienot dalībniekus'},
+        {name:'d_mb',   prettyname:'Dzēst     dalībniekus'},
+        {name:'e_mb',   prettyname:'Rediģēt   dalībniekus'},
+        {name:'a_s',    prettyname:'Pievienot risinājumus'},
+        {name:'e_s',    prettyname:'Rediģēt un dzēst (jebkurus) risinājumus'},
+        {name:'a_f',    prettyname:'Pievienot failus'},
+        {name:'a_c',    prettyname:'Pievienot komentārus'},
     ]
 
     useEffect(()=>{
@@ -244,13 +255,15 @@ function Comments(p){
         <div>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div>Komentāri:</div>
+                {data.add ?
                 <InputButton
                     onClick={()=>{p.setOverlay(<CreateCommentWindow fetch={p.fetch} refresh={refresh} setSelf={p.setOverlay}/>)}}
                     label="Pievienot"
                 /> 
+                : <></> }
             </div>
             <div style={{marginTop:10, maxHeight:150, overflowY:'auto', display:'flex', flexDirection:'column', gap:10}}>
-                {data.map((set) => <Comment d={set} fetch={p.fetch} refresh={refresh}/>)}
+                {data.comments.map((set) => <Comment d={set} fetch={p.fetch} refresh={refresh}/>)}
             </div>
         </div>
     )
@@ -418,13 +431,13 @@ function FileAttachments(p){
                 : <></>}
             </div>
             <div style={{display:'grid', gridTemplateColumns:'32% 32% 32%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
-                {data.map((set) => <FileAttachment refresh={refresh} d={set} />)}
+                {data.map((set) => <FileAttachment edit={p.edit} refresh={refresh} d={set} />)}
             </div>
         </div>
     )
 }
 
-function FileAttachment(p){
+function FileAttachment(p){    
     const deleteAttachment = async () => {
         const sendData = {
             'id':p.d.id,
@@ -461,7 +474,7 @@ function FileAttachment(p){
                         <a href={"http://localhost:80/scheduler/scheduler/"+p.d.url} target="blank">{p.d.type}</a>
                     </div>
                     <div>
-                        <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/>
+                        {p.edit ? <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/> : <></>}
                     </div>
                 </div>
             </div>

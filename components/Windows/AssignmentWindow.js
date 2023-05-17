@@ -83,6 +83,8 @@ export default function AssignmentWindow(props){
 
         const result = await response.text();
 
+        console.log(result);
+
         props.refreshData();
         props.setWindow(null);
     }
@@ -92,7 +94,7 @@ export default function AssignmentWindow(props){
             {overlay != null ? overlay : <></>}
             <div style={{display:'flex', justifyContent:'space-between', gap:10}}>
                 <InputButton onClick={() =>{
-                    props.setWindow(<SubmissionWindow dataset={props.dataset} setWindow={props.setWindow} setConfirm={props.setConfirm}/>);
+                    props.setWindow(<SubmissionWindow refreshData={props.refreshData} dataset={props.dataset} setWindow={props.setWindow} setConfirm={props.setConfirm}/>);
                 }} label="Apskatīt Risinājumus" />
                 <div style={{display:'flex', gap:5}}>
                     <InputButton onClick={() =>{
