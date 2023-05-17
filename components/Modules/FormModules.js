@@ -410,10 +410,12 @@ function FileAttachments(p){
         <div>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div>Pielikumi:</div>
-                <InputButton
-                    onClick={()=>{p.setOverlay(<AddFileAttachmentWindow refresh={refresh} setSelf={p.setOverlay} fetch={p.fetch}/>)}}
-                    label="Pievienot"
-                />
+                {p.edit ?
+                    <InputButton
+                        onClick={()=>{p.setOverlay(<AddFileAttachmentWindow refresh={refresh} setSelf={p.setOverlay} fetch={p.fetch}/>)}}
+                        label="Pievienot"
+                    />
+                : <></>}
             </div>
             <div style={{display:'grid', gridTemplateColumns:'32% 32% 32%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
                 {data.map((set) => <FileAttachment refresh={refresh} d={set} />)}

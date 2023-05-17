@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { InputButton, TinyWindow, FormGeneric, Comments, FileAttachments } from "../Modules/FormModules";
 import AssignmentWindow from "./AssignmentWindow";
 
+import inputStyles from '../../styles/Inputs.module.css';
+
 export default function SubmissionWindow(p){
     const [overlay, setOverlay] = useState(null);
     const [data, setData] = useState([
@@ -50,19 +52,19 @@ export default function SubmissionWindow(p){
     return (
         <div>
             {overlay != null ? overlay : <></>}
-            <div style={{display:'flex', justifyContent:'flex-end', gap:10}}>
-                <InputButton onClick={() => {
-                    setOverlay(<SubmissionCreateWindow refresh={refresh} dataset={p.dataset} setSelf={setOverlay} />);
-                }} label="Izveidot risinājumu" />
+            <div style={{display:'flex', justifyContent:'space-between', gap:10}}>
                 <InputButton onClick={() =>{
                     p.setWindow(<AssignmentWindow setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.dataset}/>);
-                }} label="Atgriezties pie uzdevuma apraksta" />
+                }} label="Atgriezties" />
+                <InputButton onClick={() => {
+                    setOverlay(<SubmissionCreateWindow refresh={refresh} dataset={p.dataset} setWindow={p.setWindow} setSelf={setOverlay} />);
+                }} label="Izveidot risinājumu" />
             </div>
             <div>
                 Risinājumi:
                 <div style={{display:'flex', marginTop:10, flexDirection:'column', gap:10,}}>
                     {
-                        data.map((set) => <Submission global={p.dataset} setWindow={p.setWindow} d={set} />)
+                        data.map((set) => <Submission setConfirm={p.setConfirm} global={p.dataset} setWindow={p.setWindow} d={set} />)
                     }
                 </div>
             </div>
@@ -72,7 +74,7 @@ export default function SubmissionWindow(p){
 
 function Submission(p){
     const _onClick = () => {
-        p.setWindow(<SubmissionViewWindow dataset={p.d} global={p.global} setWindow={p.setWindow}/>);
+        p.setWindow(<SubmissionViewWindow setConfirm={p.setConfirm} dataset={p.d} global={p.global} setWindow={p.setWindow}/>);
     }
     
     return (
@@ -113,6 +115,7 @@ function SubmissionCreateWindow(p){
         const result = await response.text();
 
         p.refresh();
+        p.setWindow(<SubmissionViewWindow dataset={JSON.parse(result)} global={p.dataset} setWindow={p.setWindow}/>);
         console.log(result);
     }
     
@@ -238,6 +241,35 @@ function SubmissionViewWindow(p){
         console.log(result);
     }
 
+    const deleteSubmission = async () =>{
+        const sendData = {
+            'auth':localStorage.getItem("auth"),
+            'assignment':p.global.id,
+            'id':p.dataset.id,
+            'action':'delete'
+        }
+
+        const json = JSON.stringify(sendData);
+        console.log(json);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: json,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+        console.log(result);
+
+        p.setWindow(<SubmissionWindow dataset={p.global} setWindow={p.setWindow} setConfirm={p.setConfirm} />);
+    }
+
     if(loading)
         return(
             <div>Loading..</div>
@@ -250,10 +282,15 @@ function SubmissionViewWindow(p){
                 <InputButton onClick={() =>{
                     p.setWindow(<SubmissionWindow setWindow={p.setWindow} setConfirm={p.setConfirm} dataset={p.global}/>);
                 }} label="Atgriezties" />
-                <div>
+                <div style={{display:'flex', gap:5}}>
                     <InputButton onClick={() =>{
                         toggleEdit();
                     }} label={edit ? "Apstiprināt" : "Rediģēt"}/>
+                    <InputButton onClick={() =>{
+                        p.setConfirm({onConfirm:() => {
+                            deleteSubmission();
+                        }})
+                    }} label="Dzēst" />
                 </div>
             </div>
             

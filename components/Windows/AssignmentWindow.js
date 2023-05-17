@@ -1,9 +1,37 @@
-import react from "react"
-import { EditField, InputButton } from "../Modules/FormModules"
+import react, { useEffect, useState } from "react"
+import { EditField, InputButton, Comments, FileAttachments } from "../Modules/FormModules"
 import SubmissionWindow from "./SubmissionWindow";
 
+import inputStyles from '../../styles/Inputs.module.css';
 
 export default function AssignmentWindow(props){
+    const [overlay, setOverlay] = useState(null);
+    const [edititing, setEdit] = useState(false);
+    const [editData, setEditData] = useState({});
+    const [dataset, setDataset] = useState({});
+
+    useEffect(() => {
+        setDataset(props.dataset);
+        setEditData(props.dataset);
+    }, []);
+
+    const toggleEdit = () => {
+        setEdit(!edititing);
+
+        if(edititing){
+            editAssignment(editData);
+
+            setDataset(editData);
+        }else{
+            setEditData(dataset);
+        }
+    }
+
+    const handleEdit = (e) => {
+        if(edititing)
+            setEditData({...editData, [e.target.name]:e.target.value});
+    }
+    
     const editAssignment = async (e) => {
         var data = {
             ...e, 
@@ -61,24 +89,48 @@ export default function AssignmentWindow(props){
     
     return(
         <div>
-            <div style={{display:'flex', justifyContent:'flex-end', gap:10}}>
+            {overlay != null ? overlay : <></>}
+            <div style={{display:'flex', justifyContent:'space-between', gap:10}}>
                 <InputButton onClick={() =>{
                     props.setWindow(<SubmissionWindow dataset={props.dataset} setWindow={props.setWindow} setConfirm={props.setConfirm}/>);
                 }} label="Apskatīt Risinājumus" />
-                <InputButton onClick={()=>{
-                    props.setConfirm({onConfirm:() => {
-                        deleteAssignment();
-                    }})
-                }} label="Izdzēst Uzdevumu"/>
+                <div style={{display:'flex', gap:5}}>
+                    <InputButton onClick={() =>{
+                        toggleEdit();
+                    }} label={edititing ? "Apstiprināt" : "Rediģēt"} />
+                    <InputButton onClick={()=>{
+                        props.setConfirm({onConfirm:() => {
+                            deleteAssignment();
+                        }})
+                    }} label="Izdzēst Uzdevumu"/>
+                </div>
             </div>
-            <div>
-                <h2><EditField name='name' value={props.dataset.name} onSubmit={editAssignment}/></h2>
+            <div style={{marginTop:20, display:'flex', flexDirection:'column', gap:10}}>
+                {!edititing ?
+                    <div style={{fontSize:'1.4em', fontWeight:'bold',}}>{dataset.name}</div>
+                    :
+                    <input name="name" value={editData['name']} onChange={handleEdit}/>
+                }
                 <div>
                     <div>Apraksts:</div>
-                    <textarea>{props.dataset.description}</textarea>
+                    <textarea name="description" value={edititing ? editData['description'] : dataset.description} onChange={handleEdit} style={{minHeight:100}} className={inputStyles['description']}>{dataset.description}</textarea>
                 </div>
                 <div>
-                    <br/>
+                    <FileAttachments fetch={{
+                        'link':props.dataset.id,
+                        'linktype':'a'
+                    }} 
+                        setOverlay={setOverlay}
+                        edit={edititing}
+                    />
+                </div>
+                <div>
+                    <Comments fetch={{
+                        'link':props.dataset.id,
+                        'linktype':'a'
+                    }} 
+                        setOverlay={setOverlay}
+                    />
                 </div>
             </div>
         </div>
