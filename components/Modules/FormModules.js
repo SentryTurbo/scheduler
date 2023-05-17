@@ -403,11 +403,9 @@ function FileAttachments(p){
         const response = await fetch(endpoint,options);
 
         const result = await response.json();
-
+        
         setLoading(false);
         setData(result);
-
-        console.log(result);
     }
 
     useEffect(()=>{
@@ -423,7 +421,7 @@ function FileAttachments(p){
         <div>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div>Pielikumi:</div>
-                {p.edit ?
+                {p.edit && data.add ?
                     <InputButton
                         onClick={()=>{p.setOverlay(<AddFileAttachmentWindow refresh={refresh} setSelf={p.setOverlay} fetch={p.fetch}/>)}}
                         label="Pievienot"
@@ -431,7 +429,7 @@ function FileAttachments(p){
                 : <></>}
             </div>
             <div style={{display:'grid', gridTemplateColumns:'32% 32% 32%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
-                {data.map((set) => <FileAttachment edit={p.edit} refresh={refresh} d={set} />)}
+                {data.files.map((set) => <FileAttachment edit={p.edit} refresh={refresh} d={set} />)}
             </div>
         </div>
     )
