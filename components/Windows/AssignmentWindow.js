@@ -69,7 +69,36 @@ export default function AssignmentWindow(props){
         
         const JSONdata = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/deleteassignment.php';
+        const endpoint = 'http://localhost:80/scheduler/actions/finishassignment.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSONdata,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        console.log(result);
+
+        props.refreshData();
+        props.setWindow(null);
+    }
+
+    const finishAssignment = async () => {
+        var sendData = {
+            'id':props.dataset.id,
+            'auth':localStorage.getItem("auth"),
+            'set':props.dataset.finish_date === null || props.dataset.finish_date == '0000-00-00' ? 'finish' : 'remove'
+        };
+        
+        const JSONdata = JSON.stringify(sendData);
+
+        const endpoint = 'http://localhost:80/scheduler/actions/finishassignment.php';
 
         const options = {
             method:'POST',
@@ -97,6 +126,9 @@ export default function AssignmentWindow(props){
                     props.setWindow(<SubmissionWindow refreshData={props.refreshData} dataset={props.dataset} setWindow={props.setWindow} setConfirm={props.setConfirm}/>);
                 }} label="Apskatīt Risinājumus" />
                 <div style={{display:'flex', gap:5}}>
+                    <InputButton onClick={() =>{
+                        props.setConfirm({onConfirm:()=>{finishAssignment()}})
+                    }} label={props.dataset.finish_date === null || props.dataset.finish_date == '0000-00-00' ? "Pabeigt Uzdevumu" : "Atcelt pabeigšanu"} />
                     <InputButton onClick={() =>{
                         toggleEdit();
                     }} label={edititing ? "Apstiprināt" : "Rediģēt"} />
