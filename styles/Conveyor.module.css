@@ -1,5 +1,5 @@
 .root{
-    height:150px;
+    height:fit-content;
     width:1500px;
 
     background-color: #E0E0E0;
@@ -7,14 +7,11 @@
 
 .content{
     display:flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 
-    overflow-x:auto;
+    gap: 15px;
 
-    gap:20px;
-
-    padding-left: 20px;
-    padding-top: 15px;
+    padding:15px;
 
     height: 100%;
 }
@@ -31,7 +28,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    height: 85%;
+    height: 80px;
     margin: 10px;
 }
 

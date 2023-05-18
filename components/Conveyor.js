@@ -12,13 +12,13 @@ export default function Conveyor(props){
 
 
     return(
-        <div className={styles['root']}>
+        <div className={styles['root']} style={{width:'100%', maxWidth:'100vw'}}>
             <div className={styles['content']}>
                 {
                     props.data &&
                     props.data.map((set) => 
                     <ConveyorElement id={set['id']} title={set['name']} href={props.href + querySymbol + "id=" + set[props.hrefkey]} 
-                        titlesub={set['progress'] ? 'Progress: ' + set['progress'] + ' (' + (set['percent'] ? set['percent'] + '%)' : '') : ''}
+                        titlesub={set['progress'] ? 'Progress: ' + set['progress'] + (set['percent'] ? ' (' + set['percent'] + '%)' : '') : ''}
                         bottsub={set['finish'] ? <BsFillTrophyFill/> : ''}
                     />
                     )

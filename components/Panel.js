@@ -12,7 +12,7 @@ export default function Panel(props){
                 </PanelUtility>
             </div>
             <div className={styles['window']}>
-                <div className={styles['window-content']}>
+                <div className={styles['window-content']} style={{maxWidth:'90vw'}}>
                     {props.content}
                 </div>
             </div>
