@@ -72,19 +72,19 @@ function Page(props){
             <div style={{paddingTop:20}}>
                 <h2>Projekti <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateProjectWindow setWindow={props.props.setWindow} refresh={refreshData}/>);}}/></h2>
                 <div>
-                    <Conveyor href="/main/project" data={data.projects}/>
+                    <Conveyor href="/main/project" data={data.projects} hrefkey="id"/>
                 </div>
             </div>
             <div style={{paddingTop:20}}>
                 <h2>Mērķi</h2>
                 <div>
-                    <Conveyor href="/main/milestone" data={data.milestones}/>
+                    <Conveyor href="/main/milestone" data={data.milestones} hrefkey="id"/>
                 </div>
             </div>
             <div style={{paddingTop:20}}>
                 <h2>Uzdevumi</h2>
                 <div>
-                    <Conveyor href="/main/milestone" data={data.assignments}/>
+                    <Conveyor href="/main/milestone" data={data.assignments} hrefkey="milestone_id"/>
                 </div>
             </div>
         </div>

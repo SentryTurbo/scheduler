@@ -127,7 +127,7 @@ function Page(props){
         setEditData({'name':data.milestone.name});
     },[router]);
     
-    if(loading)
+    if(loading || data.milestone === null)
         return(
             <h1>loading</h1>
         )
