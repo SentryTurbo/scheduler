@@ -9,7 +9,7 @@ import {HiOutlineFlag, HiFlag} from 'react-icons/hi2';
 
 import styles from '../../styles/Project.module.css';
 
-import { InputButton } from "../../components/Modules/FormModules";
+import { InputButton, SpeechBubble } from "../../components/Modules/FormModules";
 import CreateMilestoneWindow from "../../components/Windows/CreateMilestoneWindow";
 import ProjectMembers from "../../components/Windows/ProjectMembers";
 
@@ -182,9 +182,16 @@ function Page(props){
 }
 
 function Milestone(props){
+    const [show,setShow] = useState(false);
+
     return(
         <div style={{position:'relative'}}>
-            <div style={{position:'absolute', width:40, height:40, transform:'translate(-10px,-32px)'}}></div>
+            <SpeechBubble show={show} text={props.d.name} offset={'-80px'} />
+            
+            <div style={{position:'absolute', width:40, height:40, transform:'translate(-10px,-32px)', zIndex:100}} 
+                onMouseEnter={()=>{setShow(true)}} 
+                onMouseLeave={() => {setShow(false)}}
+            ></div>
             {props.d.finish ? 
                 <HiFlag style={{position:'absolute', transform:'translate(1px,-35px)', fontSize:'2em', color:'#988181'}}/> :
                 <HiOutlineFlag style={{position:'absolute', transform:'translate(1px,-35px)', fontSize:'2em', color:'#988181'}}/>

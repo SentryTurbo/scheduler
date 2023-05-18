@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {BsFillTrash3Fill} from 'react-icons/bs';
 
+import styles from '../../styles/Inputs.module.css';
+
 function FormGeneric(props){
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
@@ -530,4 +532,16 @@ function AddFileAttachmentWindow(p){
     )
 }
 
-export {PermsForm, Comments, FileAttachments, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};
+function SpeechBubble(p){
+    var xOffset = (p.text.length * 2.0) + "px";
+    const offset = 'translate(-'+ xOffset + ',' +p.offset+')';
+    const show = p.show ? styles['bubble-show'] : styles['bubble-hidden'];
+
+    return (
+        <div style={{position:'absolute', transform:offset, backgroundColor:'rgb(250,250,250)', padding:5, width:'fit-content', borderRadius:'30%',  display:'flex', placeContent:'center', flexWrap:'wrap'}} className={show}>
+            {p.text}
+        </div>
+    )
+}
+
+export {PermsForm, Comments, SpeechBubble, FileAttachments, FormGeneric, TinyWindow, InputGeneric, InputButton, EditField};

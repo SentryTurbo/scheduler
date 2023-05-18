@@ -11,3 +11,15 @@
     padding-left:5;
     padding-top:5;
 }
+
+.bubble-hidden{
+    transition: 0.2s;
+
+    opacity: 0;
+}
+
+.bubble-show{
+    transition: 0.2s;
+
+    opacity: 1;
+}
