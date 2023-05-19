@@ -60,6 +60,8 @@ function Page(props){
 
         const result = await response.text();
 
+        console.log(result);
+
         router.push('/main/');
     }
 
@@ -165,7 +167,8 @@ function Page(props){
             {
                 data.milestones.length > 1 &&
 
-                <div style={{position:'relative', display:'flex', justifyContent:'center', alignContent:'flex-end', flexWrap:'wrap', marginTop:60, backgroundColor:'rgba(100,0,0,0.05)', height:150, width:'100%'}}>
+                <div style={{position:'relative', display:'flex', justifyContent:'center', alignContent:'flex-end', flexWrap:'wrap', marginTop:60, backgroundColor:'rgba(100,0,0,0.05)', height:180, width:'100%'}}>
+                    <div style={{position:'absolute', left:40, top:20, color:'rgba(0,0,0,0.5)', fontWeight:'bold', fontSize:'1.5em'}}>Roadmap</div>
                     <div style={{position:'relative', marginBottom:50, width:'90%', backgroundColor:'rgba(0,0,0,0.1)', height:2, display:'flex', justifyContent:'space-between'}}>
                         {data.milestones.map((set)=> <Milestone d={set}/>)}
                     </div>
@@ -183,11 +186,14 @@ function Page(props){
 
 function Milestone(props){
     const [show,setShow] = useState(false);
+    const router = useRouter();
+
+    const offset = 35;
 
     return(
         <div style={{position:'relative'}}>
-            <SpeechBubble show={show} text={props.d.name} offset={'-80px'} />
-            
+            <SpeechBubble show={show} text={props.d.progress} offset={'-70px'} />
+            <Link href={"/main/milestone?project="+router.query.id + "&id=" + props.d.id}>
             <div style={{position:'absolute', width:40, height:40, transform:'translate(-10px,-32px)', zIndex:100}} 
                 onMouseEnter={()=>{setShow(true)}} 
                 onMouseLeave={() => {setShow(false)}}
@@ -196,7 +202,10 @@ function Milestone(props){
                 <HiFlag style={{position:'absolute', transform:'translate(1px,-35px)', fontSize:'2em', color:'#988181'}}/> :
                 <HiOutlineFlag style={{position:'absolute', transform:'translate(1px,-35px)', fontSize:'2em', color:'#988181'}}/>
             }
-            
+            </Link>
+            <div style={{position:'absolute', width:80, textAlign:'center', transform:'translate(-'+ offset +'px,5px)'}}>
+                {props.d.name}
+            </div>
             <div style={{fontSize:'2.2em', transform:'translate(0,-4px)', color:'#CCBFBF', fontWeight:'bold'}}>
                 <div style={{borderRadius:'50%', backgroundColor:'#988181', width:10, height:10}} />
             </div>
