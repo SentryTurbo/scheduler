@@ -52,7 +52,7 @@ function InputButton(props){
     
     return(
         <div>
-            <button onClick={_onClick}>{props.label}</button>
+            <button style={{cursor:'pointer'}} onClick={_onClick}>{props.label}</button>
         </div>
     )
 }

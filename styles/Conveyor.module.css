@@ -23,6 +23,10 @@
     height: 80%;
 }
 
+.element:hover{
+    background-color: #beb2b2;
+}
+
 .element-content{
     display: flex;
     flex-direction: column;

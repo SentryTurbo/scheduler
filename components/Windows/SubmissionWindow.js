@@ -3,6 +3,7 @@ import { InputButton, TinyWindow, FormGeneric, Comments, FileAttachments } from 
 import AssignmentWindow from "./AssignmentWindow";
 
 import inputStyles from '../../styles/Inputs.module.css';
+import styles from '../../styles/Submission.module.css';
 
 export default function SubmissionWindow(p){
     const [overlay, setOverlay] = useState(null);
@@ -62,7 +63,7 @@ export default function SubmissionWindow(p){
                 }} label="Izveidot risinājumu" />
                 : <></>}
             </div>
-            <div>
+            <div style={{marginTop:10}}>
                 Risinājumi:
                 <div style={{display:'flex', marginTop:10, flexDirection:'column', gap:10,}}>
                     {
@@ -80,7 +81,7 @@ function Submission(p){
     }
     
     return (
-        <div onClick={_onClick} style={{display:'flex', flexWrap:'wrap', alignContent:'center', height:30, backgroundColor:'rgba(0,0,0,0.2)'}}>
+        <div onClick={_onClick} className={styles['submission']} style={{display:'flex', flexWrap:'wrap', alignContent:'center', height:30, }}>
             <div style={{paddingLeft:10}}>
                 {p.d.name}
             </div>

@@ -69,7 +69,7 @@ export default function AssignmentWindow(props){
         
         const JSONdata = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/finishassignment.php';
+        const endpoint = 'http://localhost:80/scheduler/actions/deleteassignment.php';
 
         const options = {
             method:'POST',

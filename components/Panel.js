@@ -28,7 +28,7 @@ export default function Panel(props){
 
 function PanelUtility(p){
     return(
-        <div onClick={p.onClick} style={{width:'100%', height:50, marginTop:p.pad, backgroundColor:'rgba(0,0,0,0.2)'}}>
+        <div onClick={p.onClick} style={{width:'100%', height:50, marginTop:p.pad, backgroundColor:'rgba(0,0,0,0.2)', cursor:'pointer'}}>
             <div style={{display:'flex', height:'100%', color:'rgba(255,225,225,0.9)', flexWrap:'wrap', placeContent:'center'}}>
                 {p.children}
             </div>

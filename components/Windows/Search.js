@@ -81,7 +81,7 @@ function SearchResult(p){
         project:'/project?id='+p.d.id,
         milestone:'/milestone?id='+p.d.id,
         assignment:'/milestone?id='+ (p.d.milestone_id ? p.d.milestone_id : '') + '&assignment=' + p.d.id,
-        submission:'/milestone?id='+p.d.id,
+        submission:'/milestone?id='+ (p.d.milestone ? p.d.milestone : ''),
     }
 
     const href = hreftypes[p.d.type];

@@ -25,7 +25,8 @@ export default function WindowBase(props){
                     justifyContent:'flex-end',
                     height:35,
                     width:'100%'
-                }}><div style={{width:35, display:'flex', placeContent:'center', flexWrap:'wrap'}} onClick={_close}>
+                }}><div style={{width:35, display:'flex', placeContent:'center', flexWrap:'wrap',
+                cursor:'pointer'}} onClick={_close}>
                     <div style={{height:'fit-content'}}>X</div>
                 </div></div>
                 <div style={{padding:20}}>

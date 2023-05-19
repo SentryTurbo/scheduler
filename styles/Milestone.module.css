@@ -6,6 +6,12 @@
     background-color: #CCBFBF;
 
     height:40px;
+
+    cursor:pointer;
+}
+
+.assignment:hover{
+    background-color: #ad9d9d;
 }
 
 .assignment-info{
