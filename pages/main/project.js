@@ -176,7 +176,7 @@ function Page(props){
             }
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Mērķi <BsPlusCircle onClick={()=>{props.props.setWindow(<CreateMilestoneWindow setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
+                    <h1>Mērķi <BsPlusCircle style={{cursor:'pointer'}} onClick={()=>{props.props.setWindow(<CreateMilestoneWindow setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones} hrefkey="id"/>
                 </div>
             </div>
