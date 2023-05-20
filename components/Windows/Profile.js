@@ -44,8 +44,8 @@ export default function ProfileWindow(props){
     
     return (
         <div>
-            <h3>Profile</h3>
-            <p>username: {userData.username}</p>
+            <h3>Profils</h3>
+            <p>Lietotājvārds: {userData.username}</p>
             <InputButton label="log out" onClick={logout} />
         </div>
     )
