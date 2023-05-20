@@ -26,7 +26,8 @@ export default function CreateAssignmentWindow(props){
             input:{
                 type:'text',
                 name:'name',
-                required:true
+                required:true,
+                placeholder:'Uzdevuma nosaukums'
             }
         },
         {
@@ -34,7 +35,8 @@ export default function CreateAssignmentWindow(props){
             prettyname:'Apraksts', 
             input:{
                 type:'text',
-                name:'description'
+                name:'description',
+                placeholder:'Uzdevuma apraksts'
             }
         },
         {

@@ -36,9 +36,9 @@ function FormGeneric(props){
 
 function InputGeneric(props){
     return(
-        <div>
-            <div>{props.dataset.prettyname}</div>
-            <input {...props.dataset.input} />
+        <div {...props.dataset.div} style={{marginBottom:5}}>
+            <div style={{marginBottom:2.5, fontSize:'0.8em', color:'rgba(0,0,0,0.6)'}}>{props.dataset.prettyname}</div>
+            <input className={styles['input-generic']} {...props.dataset.input} />
         </div>
     )
 }
@@ -52,7 +52,7 @@ function InputButton(props){
     
     return(
         <div>
-            <button style={{cursor:'pointer'}} onClick={_onClick}>{props.label}</button>
+            <button className={styles['input-button']} onClick={_onClick}>{props.label}</button>
         </div>
     )
 }

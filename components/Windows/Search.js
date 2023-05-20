@@ -2,6 +2,8 @@ import { useState } from "react"
 import { InputButton } from "../Modules/FormModules";
 import Link from "next/link";
 
+import styles from "../../styles/Inputs.module.css";
+
 const translations = {
     project:'Projekts',
     milestone:'Mērķis',
@@ -54,7 +56,7 @@ export default function SearchWindow(p){
                     Meklēšana
                 </div>
                 <div style={{marginTop:25, width:'70%'}}>
-                    <input style={{width:'100%'}} type="text" onChange={handleTextChange} value={query.text}/>
+                    <input placeholder="Vaicājums..." className={styles['input-generic']} style={{width:'100%'}} type="text" onChange={handleTextChange} value={query.text}/>
                 </div>
                 <div style={{marginTop:10, display:'flex', justifyContent:'center'}}>
                     <InputButton onClick={requestQuery} label="Meklēt!"/>

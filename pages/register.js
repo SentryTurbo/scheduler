@@ -33,7 +33,8 @@ export default function Register(props){
           input:{
               type:'text',
               name:'username',
-              required:true
+              required:true,
+              placeholder:'Jūsu jaunais lietotājvārds'
           }
       },
       {
@@ -42,7 +43,8 @@ export default function Register(props){
           input:{
               type:'password',
               name:'pass',
-              required:true
+              required:true,
+              placeholder:'********'
           }
       },
       {
@@ -55,10 +57,13 @@ export default function Register(props){
     ]
     
     return (
-      <div>
-        <FormGeneric submit={_submit} dataset={dataset} />
-        <br/>
-        <Link href="/">Login</Link>
+        <div style={{display:'flex', placeContent:'center', height:'100vh', flexWrap:'wrap', backgroundColor:'rgba(255,0,0,0.03)'}}>
+        <div style={{backgroundColor:'rgba(0,0,0,0.04)', borderRadius:'10%', padding:60}}>
+            <div style={{marginBottom:25, fontWeight:'bold', fontSize:'1.2em'}}>Reģistrācija</div>
+          <FormGeneric submit={_submit} dataset={dataset} />
+          <br/>
+          <Link style={{fontSize:'0.85em', color:'rgba(0,0,0,0.6)'}} href="/">Pierakstīšanās</Link>
+        </div>
       </div>
     )
 }

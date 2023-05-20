@@ -26,7 +26,8 @@ export default function CreateMilestoneWindow(props){
             input:{
                 type:'text',
                 name:'name',
-                required:true
+                required:true,
+                placeholder:'Mēŗķa nosaukums'
             }
         },
         {
@@ -34,7 +35,8 @@ export default function CreateMilestoneWindow(props){
             prettyname:'Apraksts', 
             input:{
                 type:'text',
-                name:'description'
+                name:'description',
+                placeholder:'Mēŗķa apraksts'
             }
         },
         {

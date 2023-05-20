@@ -102,7 +102,8 @@ function AddMemberOverlay(p){
             input:{
                 type:'text',
                 name:'user',
-                required:true
+                required:true,
+                placeholder:'lietotājs123'
             }
         },
         {
