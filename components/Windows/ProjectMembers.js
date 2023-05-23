@@ -10,7 +10,7 @@ export default function ProjectMembers(p){
 
         console.log(p.data.project.id);
 
-        const endpoint = 'http://localhost:80/scheduler/views/projectmembers.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/views/projectmembers.php';
 
         const options = {
             method:'POST',
@@ -62,7 +62,7 @@ function Member(p){
             auth:localStorage.getItem("auth"),
         }
 
-        const endpoint = 'http://localhost:80/scheduler/actions/membersproject.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/membersproject.php';
 
         const options = {
             method:'POST',
@@ -129,7 +129,7 @@ function AddMemberOverlay(p){
 
         console.log(json);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/membersproject.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/membersproject.php';
 
         const options = {
             method:'POST',
@@ -169,7 +169,7 @@ function SetPermsOverlay(p){
             auth:localStorage.getItem("auth"),
         }
 
-        const endpoint = 'http://localhost:80/scheduler/actions/membersproject.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/membersproject.php';
 
         const options = {
             method:'POST',

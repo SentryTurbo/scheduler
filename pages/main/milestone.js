@@ -49,7 +49,7 @@ function Page(props){
         
         const JSONdata = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/deletemilestone.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/deletemilestone.php';
 
         const options = {
             method:'POST',
@@ -67,7 +67,7 @@ function Page(props){
     }
 
     const refreshData = () => {
-        fetch("http://localhost:80/scheduler/milestone.php?id="+router.query.id)
+        fetch(process.env.NEXT_PUBLIC_API_ADDRESS + "/milestone.php?id="+router.query.id)
             .then(res => res.json())
             .then((result) => {
                 console.log(result);
@@ -94,7 +94,7 @@ function Page(props){
             };
 
             const JSONdata = JSON.stringify(sendData);
-            const endpoint = 'http://localhost:80/scheduler/actions/editmilestone.php';
+            const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/editmilestone.php';
 
             const options = {
                 method:'POST',

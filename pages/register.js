@@ -8,7 +8,7 @@ export default function Register(props){
     const router = useRouter();
     
     const _submit = async (data) => {
-        const endpoint = 'http://localhost:80/scheduler/auth/register.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/auth/register.php';
         
         const options = {
             method:'POST',

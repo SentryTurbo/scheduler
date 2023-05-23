@@ -19,7 +19,7 @@ export default function ProfileWindow(props){
     const requestUserData = async () => {
         const JSONdata = await localStorage.getItem("auth");
 
-        const endpoint = 'http://localhost:80/scheduler/profile.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/profile.php';
 
         const options = {
             method:'POST',

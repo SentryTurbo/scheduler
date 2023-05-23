@@ -7,7 +7,7 @@ export default function CreateMilestoneWindow(props){
         data.append('project_id', props.projectId);
         data.append('auth', localStorage.getItem('auth'));
 
-        fetch("http://localhost:80/scheduler/actions/createmilestone.php", {method:'post', body:data})
+        fetch(process.env.NEXT_PUBLIC_API_ADDRESS + "/actions/createmilestone.php", {method:'post', body:data})
             .then(res => res.json())
             .then((result) => {
                 props.refresh();

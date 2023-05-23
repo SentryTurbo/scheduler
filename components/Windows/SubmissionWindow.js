@@ -25,7 +25,7 @@ export default function SubmissionWindow(p){
 
         const json = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS + '/actions/submissions.php';
 
         const options = {
             method:'POST',
@@ -103,7 +103,7 @@ function SubmissionCreateWindow(p){
 
         console.log(json);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/submissions.php';
 
         const options = {
             method:'POST',
@@ -191,7 +191,7 @@ function SubmissionViewWindow(p){
 
         const json = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/submissions.php';
 
         const options = {
             method:'POST',
@@ -224,7 +224,7 @@ function SubmissionViewWindow(p){
         const json = JSON.stringify(sendData);
         console.log(json);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/submissions.php';
 
         const options = {
             method:'POST',
@@ -255,7 +255,7 @@ function SubmissionViewWindow(p){
         const json = JSON.stringify(sendData);
         console.log(json);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/submissions.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/submissions.php';
 
         const options = {
             method:'POST',

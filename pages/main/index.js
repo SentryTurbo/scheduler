@@ -37,7 +37,7 @@ function Page(props){
     const refreshData = () => {
         const JSONdata = localStorage.getItem("auth");
         
-        fetch("http://localhost:80/scheduler/main.php", {method:'POST', headers:{
+        fetch(process.env.NEXT_PUBLIC_API_ADDRESS +  "/main.php", {method:'POST', headers:{
             'Content-Type':'application/json',
         },
         body: JSONdata,})

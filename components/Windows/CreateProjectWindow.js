@@ -7,7 +7,7 @@ export default function CreateProjectWindow(props){
         var sendData = data;
         sendData.append("auth", localStorage.getItem("auth"));
         
-        const endpoint = 'http://localhost:80/scheduler/actions/createproject.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/createproject.php';
 
         const options = {
             method:'POST',

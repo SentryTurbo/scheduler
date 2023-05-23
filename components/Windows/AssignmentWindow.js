@@ -43,7 +43,7 @@ export default function AssignmentWindow(props){
 
         const JSONdata = JSON.stringify(data);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/editassignment.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/editassignment.php';
 
         const options = {
             method:'POST',
@@ -69,7 +69,7 @@ export default function AssignmentWindow(props){
         
         const JSONdata = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/deleteassignment.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/deleteassignment.php';
 
         const options = {
             method:'POST',
@@ -98,7 +98,7 @@ export default function AssignmentWindow(props){
         
         const JSONdata = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/finishassignment.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/finishassignment.php';
 
         const options = {
             method:'POST',

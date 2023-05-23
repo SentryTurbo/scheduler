@@ -7,7 +7,7 @@ export default function CreateAssignmentWindow(props){
         data.append('milestone_id', props.milestoneId);
         data.append('auth', localStorage.getItem("auth"));
 
-        fetch("http://localhost:80/scheduler/actions/createassignment.php", {method:'post', body:data})
+        fetch(process.env.NEXT_PUBLIC_API_ADDRESS + "/actions/createassignment.php", {method:'post', body:data})
             .then(res => res.json())
             .then((result) => {
                 props.refresh();

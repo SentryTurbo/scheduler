@@ -9,7 +9,7 @@ export default function Home() {
   const router = useRouter();
 
   const _submit = async (data) => {
-        const endpoint = 'http://localhost:80/scheduler/auth/login.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS + '/auth/login.php';
       
         const options = {
             method:'POST',

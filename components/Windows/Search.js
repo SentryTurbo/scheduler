@@ -44,7 +44,7 @@ export default function SearchWindow(p){
 
         console.log(queryData);
 
-        const endpoint = "http://localhost:80/scheduler/actions/search.php";
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  "/actions/search.php";
 
         const options = {
             method:'POST',

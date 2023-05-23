@@ -228,7 +228,7 @@ function Comments(p){
 
         const json = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/comments.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/comments.php';
 
         const options = {
             method:'POST',
@@ -283,7 +283,7 @@ function Comment(p){
 
         const json = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/comments.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/comments.php';
 
         const options = {
             method:'POST',
@@ -331,7 +331,7 @@ function CreateCommentWindow(p){
 
         console.log(json);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/comments.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/comments.php';
 
         const options = {
             method:'POST',
@@ -392,7 +392,7 @@ function FileAttachments(p){
 
         const json = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/files.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/files.php';
 
         const options = {
             method:'POST',
@@ -448,7 +448,7 @@ function FileAttachment(p){
 
         const json = JSON.stringify(sendData);
 
-        const endpoint = 'http://localhost:80/scheduler/actions/files.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/files.php';
 
         const options = {
             method:'POST',
@@ -471,7 +471,7 @@ function FileAttachment(p){
             <div style={{display:'flex', flexWrap:'wrap', alignContent:'center', paddingLeft:5, paddingRight:5, height:'100%'}}>
                 <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
                     <div>
-                        <a href={"http://localhost:80/scheduler/scheduler/"+p.d.url} target="blank">{p.d.type}</a>
+                        <a href={process.env.NEXT_PUBLIC_API_ADDRESS + "/scheduler/"+p.d.url} target="blank">{p.d.type}</a>
                     </div>
                     <div>
                         {p.edit ? <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/> : <></>}
@@ -489,7 +489,7 @@ function AddFileAttachmentWindow(p){
         data.append("linktype", p.fetch.linktype);
         data.append("action", "upload");
 
-        const endpoint = 'http://localhost:80/scheduler/actions/files.php';
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/files.php';
 
         const options = {
             method:'POST',
