@@ -60,6 +60,11 @@ function Page(props){
 
         const result = await response.text();
 
+        if(result != "perms")
+            props.props.addNotif({type:'s',text:'Projekts tika izdzēsts veiksmīgi!'});
+        else if(result == "perms")
+            props.props.addNotif({type:'e',text:'Jums nav atļauju izpildīt šo operāciju!'});
+
         console.log(result);
 
         router.push('/main/');
@@ -100,7 +105,12 @@ function Page(props){
 
         const response = await fetch(endpoint,options);
 
-        const result = await response.json();
+        const result = await response.text();
+
+        if(result != "perms")
+            props.props.addNotif({type:'s',text:'Projekts tika rediģēts veiksmīgi!'});
+        else
+            props.props.addNotif({type:'e',text:'Jums nav atļauju izpildīt šo operāciju!'});
 
         refreshData();
 
@@ -152,7 +162,7 @@ function Page(props){
                 </div>
                 <div style={{display:'flex', gap:10}}>
                     <InputButton onClick={()=>{
-                        props.props.setWindow(<ProjectMembers setConfirm={props.props.setConfirm} data={data}/>);
+                        props.props.setWindow(<ProjectMembers addNotif={props.props.addNotif} setConfirm={props.props.setConfirm} data={data}/>);
                     }} label="Pārvaldīt projekta dalībniekus"/>
                     <InputButton onClick={()=>{
                         toggleEdit();
@@ -176,7 +186,7 @@ function Page(props){
             }
             <div style={{paddingTop:60}}>
                 <div>
-                    <h1>Mērķi <BsPlusCircle style={{cursor:'pointer'}} onClick={()=>{props.props.setWindow(<CreateMilestoneWindow setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
+                    <h1>Mērķi <BsPlusCircle style={{cursor:'pointer'}} onClick={()=>{props.props.setWindow(<CreateMilestoneWindow addNotif={props.props.addNotif} setWindow={props.props.setWindow} refresh={refreshData} projectId={router.query.id}/>);}} /></h1>
                     <Conveyor href={"/main/milestone?project="+router.query.id} data={data.milestones} hrefkey="id"/>
                 </div>
             </div>

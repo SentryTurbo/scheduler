@@ -37,7 +37,7 @@ export default function ProjectMembers(p){
             {overlay != null ? overlay : <></>}
             <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <InputButton label="Pievienot dalībnieku" onClick={()=>{
-                    setOverlay(<AddMemberOverlay data={p.data} refresh={refresh} setOverlay={setOverlay}/>)
+                    setOverlay(<AddMemberOverlay addNotif={p.addNotif} data={p.data} refresh={refresh} setOverlay={setOverlay}/>)
                 }}/>
             </div>
             <div>
@@ -46,7 +46,7 @@ export default function ProjectMembers(p){
             <br/>
             <div style={{display:'flex', flexDirection:'column', gap:10}}>
                 {members.map((val)=>
-                    <Member refresh={refresh} global={p.data} setConfirm={p.setConfirm} setOverlay={setOverlay} d={val}/>
+                    <Member addNotif={p.addNotif} refresh={refresh} global={p.data} setConfirm={p.setConfirm} setOverlay={setOverlay} d={val}/>
                 )}
             </div>
         </div>
@@ -74,8 +74,12 @@ function Member(p){
 
         const response = await fetch(endpoint,options);
 
-        const result = await response.json();
+        const result = await response.text();
 
+        if(result != "perms" && result != "false")
+            p.addNotif({type:'s',text:'Dalībnieks tika izmests.'});
+        else
+            p.addNotif({type:'e',text:'Jums nav atļauju izpildīt šo operāciju!'});
         console.log(result);
 
         p.refresh();
@@ -85,7 +89,7 @@ function Member(p){
         <div style={{height:30, backgroundColor:'rgba(0,0,0,0.1)', display:'flex', flexWrap:'wrap', alignContent:'center', justifyContent:'space-between', paddingLeft:10, paddingRight:10}}>
             <div>{p.d.username}</div>
             <div style={{display:'flex', gap:10}}>
-                <InputButton label="Atļaujas" onClick={() => {p.setOverlay(<SetPermsOverlay refresh={p.refresh} global={p.global} d={p.d} setOverlay={p.setOverlay} />)}}/>
+                <InputButton label="Atļaujas" onClick={() => {p.setOverlay(<SetPermsOverlay addNotif={p.addNotif} refresh={p.refresh} global={p.global} d={p.d} setOverlay={p.setOverlay} />)}}/>
 
                 <InputButton label="Izmest" onClick={() => { p.setConfirm({onConfirm:() => {
                 remove();
@@ -143,6 +147,11 @@ function AddMemberOverlay(p){
 
         const result = await response.text();
 
+        if(result != "perms" && result != "false")
+            p.addNotif({type:'s',text:'Dalībnieks tika pievienots.'});
+        else
+            p.addNotif({type:'e',text:'Radās kļūda!'});
+
         console.log(result);
 
         p.setOverlay(null);
@@ -182,6 +191,11 @@ function SetPermsOverlay(p){
         const response = await fetch(endpoint,options);
 
         const result = await response.text();
+
+        if(result != "perms" && result != "false")
+            p.addNotif({type:'s',text:'Dalībnieks tika rediģēts.'});
+        else
+            p.addNotif({type:'e',text:'Radās kļūda!'});
 
         p.refresh();
         p.setOverlay(null);

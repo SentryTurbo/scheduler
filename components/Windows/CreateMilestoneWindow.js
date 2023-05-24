@@ -12,9 +12,12 @@ export default function CreateMilestoneWindow(props){
             .then((result) => {
                 props.refresh();
                 props.setWindow(null);
+
+                props.addNotif({type:'s', text:'Mērķis tika izveidots veiksmīgi.'});
                 console.log(result);
             },
             (error) => {
+                props.addNotif({type:'s', text:'Radās kļūda!'});
                 console.log(error);
             })
     }

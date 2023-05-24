@@ -20,6 +20,8 @@ export default function CreateProjectWindow(props){
 
         console.log(result);
 
+        props.addNotif({type:'s', text:'Projekts izveidots veiksmīgi!'});
+
         props.refresh();
         props.setWindow(null);
     }

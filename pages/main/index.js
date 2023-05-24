@@ -70,7 +70,7 @@ function Page(props){
                 <h1>Galvenais panelis</h1>
             </div>
             <div style={{paddingTop:20}}>
-                <h2>Projekti <BsPlusCircle style={{cursor:'pointer'}} onClick={()=>{props.props.setWindow(<CreateProjectWindow setWindow={props.props.setWindow} refresh={refreshData}/>);}}/></h2>
+                <h2>Projekti <BsPlusCircle style={{cursor:'pointer'}} onClick={()=>{props.props.setWindow(<CreateProjectWindow addNotif={props.props.addNotif} setWindow={props.props.setWindow} refresh={refreshData}/>);}}/></h2>
                 <div>
                     <Conveyor href="/main/project" data={data.projects} hrefkey="id"/>
                 </div>

@@ -63,6 +63,11 @@ function Page(props){
 
         const result = await response.text();
 
+        if(result == "true")
+            props.props.addNotif({type:'s',text:'Mērķis tika izdzēsts veiksmīgi!'});
+        else if(result == "perms")
+            props.props.addNotif({type:'e',text:'Jums nav atļauju izpildīt šo operāciju!'});
+
         router.push('/main/');
     }
 
@@ -106,6 +111,11 @@ function Page(props){
 
             const response = await fetch(endpoint,options);
             const result = await response.text();
+
+            if(result != "perms")
+                props.props.addNotif({type:'s',text:'Mērķis tika rediģēts veiksmīgi!'});
+            else if(result == "perms")
+                props.props.addNotif({type:'e',text:'Jums nav atļauju izpildīt šo operāciju!'});
 
             console.log(result);
 

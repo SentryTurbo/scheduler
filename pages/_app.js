@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import WindowBase from '../components/WindowBase';
 import ConfirmWindow from '../components/Windows/ConfirmWindow';
+import NotificationList from '../components/Notification';
 
 import '../styles/globals.css';
 
@@ -9,9 +10,15 @@ export default function MyApp({ Component, pageProps }) {
     const [confirmation, setConfirmation] = useState({
         onConfirm:null
     });
+    const [notifications,setNotifications] = useState(null);
+
+    const addNotification = (p) =>{
+        setNotifications(p);
+    }
 
     return(
         <div style={{position:'relative'}}>
+            <NotificationList notifs={notifications} setNotifs={setNotifications}/>
             {
                 confirmation.onConfirm != null &&
                 <div style={{position:'absolute', width:'100%', zIndex:101, height:'100%'}}>
@@ -28,7 +35,7 @@ export default function MyApp({ Component, pageProps }) {
                     </WindowBase>
                 </div>
             }
-            <Component setWindow={setWindowContent} setConfirm={setConfirmation} {...pageProps} />
+            <Component addNotif={addNotification} setWindow={setWindowContent} setConfirm={setConfirmation} {...pageProps} />
         </div>
     ) 
 }
