@@ -15,7 +15,7 @@ import ProjectMembers from "../../components/Windows/ProjectMembers";
 
 export default function Project(props){
     return(
-        <Panel setWindow={props.setWindow} setConfirm={props.setConfirm} content={
+        <Panel addNotif={props.addNotif} setWindow={props.setWindow} setConfirm={props.setConfirm} content={
             (
                 <Page props={props}/>
             )

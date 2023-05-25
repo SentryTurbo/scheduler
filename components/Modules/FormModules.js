@@ -18,7 +18,6 @@ function FormGeneric(props){
     
         // Or you can work with it as a plain object:
         const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
 
         if(props.submit){
             props.submit(formData);
@@ -74,8 +73,6 @@ function EditField(props){
 
     const _submitChange = e => {
         if(value !== props.value){
-            console.log('hehe');
-
             if(props.onSubmit){
                 props.onSubmit({name:props.name, value:e.target.value});
             }
@@ -138,7 +135,6 @@ function PermsForm(p){
     const parsePerms = () => {
         var perms = p.d.perms.split(",");
         perms = perms.filter((str) => str != '');
-        console.log(perms);
 
         if(perms[0] === "all"){
             //make a copy
@@ -163,8 +159,6 @@ function PermsForm(p){
             //apply changes
             setValues(copy);
         }
-
-        console.log(values);
     }
 
     const dataset = [
@@ -296,7 +290,6 @@ function Comment(p){
         const response = await fetch(endpoint,options);
 
         const result = await response.text();
-        console.log(result);
 
         p.refresh();
     }
