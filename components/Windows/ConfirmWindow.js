@@ -4,6 +4,9 @@ export default function ConfirmWindow(props){
     return(
         <div>
             <h2>Vai esat pārliecināti?</h2>
+            {props.extra &&
+                <div>{props.extra}</div>
+            }
             <div style={{display:'flex', justifyContent:'center'}}>
                 <div style={{display:'flex', justifyContent:'space-between', width:'40%'}}>
                     <InputButton 

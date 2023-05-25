@@ -9,7 +9,7 @@ import {BsPlusCircle} from 'react-icons/bs';
 
 export default function Index(props){
     return(
-        <Panel setWindow={props.setWindow} setConfirm={props.setConfirm} content={
+        <Panel addNotif={props.addNotif} setWindow={props.setWindow} setConfirm={props.setConfirm} content={
             (
                 <Page props={props}/>
             )

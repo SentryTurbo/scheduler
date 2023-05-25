@@ -38,6 +38,31 @@ export default function ProfileWindow(props){
         console.log(result);
     }
 
+    const deleteUserData = async () => {
+        const JSONdata = JSON.stringify({auth:localStorage.getItem("auth")});
+
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/deleteprofile.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSONdata,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        console.log(result);
+
+        if(result == "true")
+            logout();
+        else
+            props.addNotif({type:'e',text:'Radās kļūda.'})
+    }
+
     useEffect(()=>{
         requestUserData();
     }, []);
@@ -46,7 +71,15 @@ export default function ProfileWindow(props){
         <div>
             <h3>Profils</h3>
             <p>Lietotājvārds: {userData.username}</p>
-            <InputButton label="log out" onClick={logout} />
+            <div style={{display:'flex', gap:20}}>
+                <InputButton label="Atrakstīties" onClick={logout} />
+                <InputButton label="Izdzēst profilu" onClick={()=>{
+                    props.setConfirm({onConfirm:()=>{
+                        deleteUserData();
+                    }})
+                }} />
+            </div>
+            
         </div>
     )
 }

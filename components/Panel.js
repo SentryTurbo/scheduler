@@ -10,7 +10,7 @@ export default function Panel(props){
     return(
         <div className={styles['root']}>
             <div className={styles['utils']}>
-                <PanelUtility onClick={()=>{props.setWindow(<ProfileWindow setWindow={props.setWindow}/>)}} pad={50}>
+                <PanelUtility onClick={()=>{props.setWindow(<ProfileWindow addNotif={props.addNotif} setWindow={props.setWindow} setConfirm={props.setConfirm}/>)}} pad={50}>
                     <BsPerson style={{fontSize:'2em'}}/>
                 </PanelUtility>
                 <PanelUtility onClick={()=>{props.setWindow(<SearchWindow setWindow={props.setWindow}/>)}} pad={50}>

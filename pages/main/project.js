@@ -133,6 +133,38 @@ function Page(props){
         }
     }
 
+    const leaveProject = async () => {
+        const sendData = {
+            'auth':localStorage.getItem("auth"),
+            'project':router.query.id
+        }
+        
+        const JSONdata = JSON.stringify(sendData);
+
+        const endpoint = process.env.NEXT_PUBLIC_API_ADDRESS +  '/actions/leaveproject.php';
+
+        const options = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSONdata,
+        };
+
+        const response = await fetch(endpoint,options);
+
+        const result = await response.text();
+
+        if(result != "error"){
+            router.push('/main/');
+            props.props.addNotif({type:'s',text:'Projekts tika pamests veiksmigi.'});
+        }else{
+            props.props.addNotif({type:'e',text:'Radās kļūda.'});
+        }
+
+        console.log(result);
+    }
+
     const handleEdit = (e) => {
         setEditData({...editData,[e.target.name]:e.target.value});
     }
@@ -162,6 +194,11 @@ function Page(props){
                 </div>
                 <div style={{display:'flex', gap:10}}>
                     <InputButton onClick={()=>{
+                        props.props.setConfirm({onConfirm:() => {
+                            leaveProject();
+                        }})
+                    }} label='Pamest projektu' />
+                    <InputButton onClick={()=>{
                         props.props.setWindow(<ProjectMembers addNotif={props.props.addNotif} setConfirm={props.props.setConfirm} data={data}/>);
                     }} label="Pārvaldīt projekta dalībniekus"/>
                     <InputButton onClick={()=>{
@@ -170,7 +207,7 @@ function Page(props){
                     <InputButton onClick={()=>{
                         props.props.setConfirm({onConfirm:() => {
                             deleteProject();
-                        }})
+                        }, extra:'Projekta datus nebūs iespējams atjaunot pēc izdzēšanas!'})
                     }} label='Izdzēst projektu' />
                 </div>
             </div>
