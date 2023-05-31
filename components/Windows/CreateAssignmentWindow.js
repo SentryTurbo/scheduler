@@ -27,7 +27,8 @@ export default function CreateAssignmentWindow(props){
                 type:'text',
                 name:'name',
                 required:true,
-                placeholder:'Uzdevuma nosaukums'
+                placeholder:'Uzdevuma nosaukums',
+                maxlength:'50'
             }
         },
         {

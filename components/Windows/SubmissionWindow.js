@@ -129,7 +129,8 @@ function SubmissionCreateWindow(p){
             input:{
                 type:'text',
                 name:'name',
-                required:true
+                required:true,
+                maxlength:'50'
             }
         },
         {
@@ -302,8 +303,8 @@ function SubmissionViewWindow(p){
             </div>
             
             <div style={{display:'flex', flexDirection:'column', gap:20}}>
-                <div style={{marginTop:10, fontWeight:'bold', fontSize:'1.4em'}}>
-                    {edit ? <input name="name" onChange={handleEdit} value={editData['name']} /> : 
+                <div style={{marginTop:10, fontWeight:'bold', fontSize:'1.4em', wordWrap:'break-word'}}>
+                    {edit ? <input name="name" onChange={handleEdit} value={editData['name']} maxLength={50} className={inputStyles['input-generic']} /> : 
                         <div>{data.name}</div>}
                 </div>
                 <div>

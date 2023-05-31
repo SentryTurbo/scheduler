@@ -20,7 +20,7 @@ export default function Home() {
 
         const result = await response.text();
 
-        if(result != "ERROR"){
+        if(result != "ERROR" && !result.includes('error')){
           localStorage.setItem('auth', result);
 
           router.push('/main/');
@@ -47,7 +47,8 @@ export default function Home() {
               type:'password',
               name:'pass',
               required:true,
-              placeholder:'******'
+              placeholder:'******',
+              minlength:'8'
           },
           div:{
             style:{

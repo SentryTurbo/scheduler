@@ -17,7 +17,7 @@ export default function CreateMilestoneWindow(props){
                 console.log(result);
             },
             (error) => {
-                props.addNotif({type:'s', text:'Radās kļūda!'});
+                props.addNotif({type:'e', text:'Radās kļūda!'});
                 console.log(error);
             })
     }
@@ -30,10 +30,11 @@ export default function CreateMilestoneWindow(props){
                 type:'text',
                 name:'name',
                 required:true,
-                placeholder:'Mēŗķa nosaukums'
+                placeholder:'Mēŗķa nosaukums',
+                maxlength:'35'
             }
         },
-        {
+        /*{
             name:'description', 
             prettyname:'Apraksts', 
             input:{
@@ -41,7 +42,7 @@ export default function CreateMilestoneWindow(props){
                 name:'description',
                 placeholder:'Mēŗķa apraksts'
             }
-        },
+        },*/
         {
             name:'submit',
             prettyname:'',

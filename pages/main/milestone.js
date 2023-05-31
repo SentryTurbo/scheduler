@@ -6,10 +6,11 @@ import { useRouter } from 'next/router'
 
 import { InputButton } from "../../components/Modules/FormModules";
 
-import {BsPlusCircle} from 'react-icons/bs';
+import {BsPlusCircle, BsCheckCircle} from 'react-icons/bs';
 import CreateAssignmentWindow from "../../components/Windows/CreateAssignmentWindow";
 import AssignmentWindow from "../../components/Windows/AssignmentWindow";
 
+import inputStyles from '../../styles/Inputs.module.css';
 import styles from '../../styles/Milestone.module.css';
 
 export default function Milestone(props){
@@ -146,7 +147,7 @@ function Page(props){
         <div>
             <Link href={router.query.project ? "/main/project?id="+router.query.project : "/main"}>Atpakaļ</Link>
             <div style={{display:'flex', justifyContent:'space-between', paddingRight:110}}>
-                <h1>{edit ? <input name="name" onChange={_handleChange} value={editData.name}/> : data.milestone.name}</h1>
+                <h1>{edit ? <input name="name" onChange={_handleChange} value={editData.name} maxLength={'35'} className={inputStyles['input-generic']}/> : data.milestone.name}</h1>
                 <div style={{display:'flex', gap:10}}>
                     <InputButton label={edit ? "Apstiprināt" : "Rediģēt mērķi"} onClick={()=>{toggleEdit();}} />
                     <InputButton onClick={()=>{
@@ -179,8 +180,9 @@ function AssignmentList(props){
 function Assignment(props){
     return(
         <div className={styles['assignment']} onClick={() => {props.setWindow(<AssignmentWindow refreshData={props.refreshData} dataset={props.dataset} setConfirm={props.setConfirm} setWindow={props.setWindow}/>)}}>
-            <div className={styles['assignment-info']}>
-                {props.title}
+            <div className={styles['assignment-info']} style={{display:'flex', justifyContent:'space-between', width:'100%', paddingRight:20}}>
+                <div>{props.title}</div>
+                <div style={{fontSize:'0.8em'}}>{(props.dataset.finish_date != "0000-00-00" && props.dataset.finish_date != null) ? <div><BsCheckCircle /> {props.dataset.finish_date}</div> : ''}</div>
             </div>
         </div>
     )

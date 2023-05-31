@@ -117,7 +117,7 @@ function SearchResult(p){
     return (
         <Link href={"/main" + href}>
             <div style={{backgroundColor:'rgba(0,0,0,0.1)', height:30, display:'flex', alignContent:'center', justifyContent:'space-between', flexWrap:'wrap', paddingLeft:10, paddingRight:10}}>
-                <div style={{height:'fit-content'}}>{p.d.name}</div>
+                <div style={{height:'fit-content', width:'80%', overflow:'hidden', textOverflow:'ellipsis'}}>{p.d.name}</div>
                 <div style={{height:'fit-content'}}>{translations[p.d.type]}</div>
             </div>
         </Link>

@@ -37,7 +37,7 @@ export default function CreateProjectWindow(props){
                 placeholder:'Projekta nosaukums'
             }
         },
-        {
+        /*{
             name:'description', 
             prettyname:'Apraksts', 
             input:{
@@ -45,7 +45,7 @@ export default function CreateProjectWindow(props){
                 name:'description',
                 placeholder:'Projekta apraksts'
             }
-        },
+        },*/
         {
             name:'submit',
             prettyname:'',

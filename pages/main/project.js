@@ -7,6 +7,7 @@ import Link from "next/link";
 import {BsPlusCircle, BsFlag} from 'react-icons/bs';
 import {HiOutlineFlag, HiFlag} from 'react-icons/hi2';
 
+import inputStyles from '../../styles/Inputs.module.css';
 import styles from '../../styles/Project.module.css';
 
 import { InputButton, SpeechBubble } from "../../components/Modules/FormModules";
@@ -185,9 +186,9 @@ function Page(props){
             <Link href="/main/">Atpakaļ</Link>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <div style={{display:'flex', alignContent:'center', flexWrap:'wrap', gap:20}}>
-                    <div style={{fontSize:'3em', fontWeight:'bold'}}>
+                    <div style={{fontSize:'3em', fontWeight:'bold', overflow:'hidden', maxWidth:600, textOverflow:'ellipsis'}}>
                         {
-                            edit ? <input name='name' onChange={handleEdit} value={editData['name']}/> : data.project.name
+                            edit ? <input name='name' onChange={handleEdit} value={editData['name']} maxLength={'20'} className={inputStyles['input-generic']}/> : data.project.name
                         }
                     </div>
                     <div style={{display:'flex', flexWrap:'wrap', alignContent:'flex-end'}}><i>{data.stats.finishedcount + '/' + data.stats.milestonecount + ' (' + data.stats.percent + '%)'}</i></div>
@@ -250,7 +251,7 @@ function Milestone(props){
                 <HiOutlineFlag style={{position:'absolute', transform:'translate(1px,-35px)', fontSize:'2em', color:'#988181'}}/>
             }
             </Link>
-            <div style={{position:'absolute', width:80, textAlign:'center', transform:'translate(-'+ offset +'px,5px)'}}>
+            <div style={{position:'absolute', width:80, textAlign:'center', transform:'translate(-'+ offset +'px,5px)', overflow:'hidden', textOverflow:'ellipsis'}}>
                 {props.d.name}
             </div>
             <div style={{fontSize:'2.2em', transform:'translate(0,-4px)', color:'#CCBFBF', fontWeight:'bold'}}>

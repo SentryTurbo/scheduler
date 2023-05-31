@@ -351,7 +351,8 @@ function CreateCommentWindow(p){
             input:{
                 type:'text',
                 name:'content',
-                required:true
+                required:true,
+                maxlength:'255'
             }
         },
         {

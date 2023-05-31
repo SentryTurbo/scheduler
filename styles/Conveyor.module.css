@@ -20,6 +20,7 @@
     background-color: #CCBFBF;
 
     min-width: 250px;
+    max-width: 250px;
     height: 80%;
 }
 
@@ -39,4 +40,7 @@
 .title{
     font-weight: bold;
     font-size: 1.5em;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

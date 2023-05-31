@@ -141,9 +141,9 @@ export default function AssignmentWindow(props){
             </div>
             <div style={{marginTop:20, display:'flex', flexDirection:'column', gap:10}}>
                 {!edititing ?
-                    <div style={{fontSize:'1.4em', fontWeight:'bold',}}>{dataset.name}</div>
+                    <div style={{fontSize:'1.4em', fontWeight:'bold', wordWrap:'break-word'}}>{dataset.name}</div>
                     :
-                    <input name="name" value={editData['name']} onChange={handleEdit}/>
+                    <input name="name" value={editData['name']} onChange={handleEdit} maxLength={"50"} className={inputStyles['input-generic']}/>
                 }
                 <div>
                     <div>Apraksts:</div>

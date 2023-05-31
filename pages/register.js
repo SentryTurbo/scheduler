@@ -44,7 +44,8 @@ export default function Register(props){
               type:'password',
               name:'pass',
               required:true,
-              placeholder:'********'
+              placeholder:'********',
+              minlength:'8'
           }
       },
       {
