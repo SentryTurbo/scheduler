@@ -425,7 +425,7 @@ function FileAttachments(p){
                 : <></>}
             </div>
             <div style={{display:'grid', gridTemplateColumns:'32% 32% 32%', padding:10, justifyContent:'space-between', marginTop:10, backgroundColor:'rgba(0,0,0,0.02)', minHeight:50, maxHeight:100, overflowY:'auto', rowGap:10}}>
-                {data.files.map((set) => <FileAttachment edit={p.edit} refresh={refresh} d={set} />)}
+                {data.files.map((set) => <FileAttachment edit={p.edit} perms={data.add} refresh={refresh} d={set} />)}
             </div>
         </div>
     )
@@ -468,7 +468,7 @@ function FileAttachment(p){
                         <a href={process.env.NEXT_PUBLIC_API_ADDRESS + "/scheduler/"+p.d.url} target="blank">{p.d.type}</a>
                     </div>
                     <div>
-                        {p.edit ? <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/> : <></>}
+                        {p.edit && p.perms ? <BsFillTrash3Fill style={{color:'rgba(90,0,0,0.5)'}} onClick={deleteAttachment}/> : <></>}
                     </div>
                 </div>
             </div>

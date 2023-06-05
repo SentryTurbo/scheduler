@@ -81,12 +81,6 @@ function Page(props){
                     <Conveyor href="/main/milestone" data={data.milestones} hrefkey="id"/>
                 </div>
             </div>
-            <div style={{paddingTop:20}}>
-                <h2>Uzdevumi</h2>
-                <div>
-                    <Conveyor href="/main/milestone" data={data.assignments} hrefkey="milestone_id"/>
-                </div>
-            </div>
         </div>
     );
 }
