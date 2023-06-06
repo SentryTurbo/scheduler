@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Pazinojuma bloks, kurs radas labaja apakseja sturi.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import { useEffect } from "react";
 
 export default function NotificationList(p){

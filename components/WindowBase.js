@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Modulis, kurs ir visu klienta logu baze (ramis, aizversanas poga)
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import React from "react"
 
 export default function WindowBase(props){

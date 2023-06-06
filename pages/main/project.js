@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Projekta panelis. (merku atlase)
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import react, { useEffect, useState } from "react"
 import { useRouter } from 'next/router'
 import Conveyor from "../../components/Conveyor";

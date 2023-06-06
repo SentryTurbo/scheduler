@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Risinajumu apskates logs. Risinajumu saraksts.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import { useEffect, useState } from "react";
 import { InputButton, TinyWindow, FormGeneric, Comments, FileAttachments } from "../Modules/FormModules";
 import AssignmentWindow from "./AssignmentWindow";

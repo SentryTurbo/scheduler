@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Modulis, kurs ietver sevi informacijas blokus.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import react from "react"
 
 import {BsFillTrophyFill} from 'react-icons/bs';

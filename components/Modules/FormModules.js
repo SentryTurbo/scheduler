@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Ievades moduli. Ievades lauki, adaptivas formas utt.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {BsFillTrash3Fill} from 'react-icons/bs';
@@ -6,17 +13,11 @@ import styles from '../../styles/Inputs.module.css';
 
 function FormGeneric(props){
     function handleSubmit(e) {
-        // Prevent the browser from reloading the page
         e.preventDefault();
     
-        // Read the form data
         const form = e.target;
         const formData = new FormData(form);
     
-        // You can pass formData as a fetch body directly:
-        //fetch('/some-api', { method: form.method, body: formData });
-    
-        // Or you can work with it as a plain object:
         const formJson = Object.fromEntries(formData.entries());
 
         if(props.submit){

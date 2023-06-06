@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Uzdevuma apskates un apstrades logs.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import react, { useEffect, useState } from "react"
 import { EditField, InputButton, Comments, FileAttachments } from "../Modules/FormModules"
 import SubmissionWindow from "./SubmissionWindow";

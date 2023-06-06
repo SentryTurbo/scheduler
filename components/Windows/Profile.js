@@ -1,3 +1,11 @@
+/*
+    Koda apraksts:
+        Profila logs, kur tiek raditi projekta dati, kurus
+        atsuta serveris.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import react, { useEffect, useState } from "react";
 
 import { InputButton } from "../Modules/FormModules";

@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Panelis, kurs ir kreisaja ekrana puse.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import react from "react";
 
 import styles from '../styles/Main.module.css';

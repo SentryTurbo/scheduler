@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Merka izveidosanas logs.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import React from "react";
 
 import { FormGeneric } from "../Modules/FormModules";

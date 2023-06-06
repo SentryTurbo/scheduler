@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Meklesanas logs.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import { useState } from "react"
 import { InputButton } from "../Modules/FormModules";
 import { BsFilter } from "react-icons/bs";

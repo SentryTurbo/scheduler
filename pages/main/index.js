@@ -1,3 +1,10 @@
+/*
+    Koda apraksts:
+        Galvenais panelis.
+    
+    Vlads Muravjovs, 4Ap, Rezeknes Tehnikums, 2023
+*/
+
 import react, { useEffect, useState } from "react"
 import Conveyor from "../../components/Conveyor";
 import Panel from "../../components/Panel";
