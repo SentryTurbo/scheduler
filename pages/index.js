@@ -60,7 +60,8 @@ export default function Home() {
           name:'submit',
           prettyname:'',
           input:{
-              type:'submit'
+              type:'submit',
+              value:'Pierakstīties'
           },
           div:{
             style:{

@@ -52,7 +52,8 @@ export default function Register(props){
           name:'submit',
           prettyname:'',
           input:{
-              type:'submit'
+              type:'submit',
+              value:'Reģistrēties'
           }
       }
     ]

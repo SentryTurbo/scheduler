@@ -48,7 +48,7 @@ export default function ProjectMembers(p){
                 }}/>
             </div>
             <div>
-                Project Members:
+                Projekta dalībnieki:
             </div>
             <br/>
             <div style={{display:'flex', flexDirection:'column', gap:10}}>
