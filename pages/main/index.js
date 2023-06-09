@@ -48,7 +48,9 @@ function Page(props){
             'Content-Type':'application/json',
         },
         body: JSONdata,})
-            .then(res => res.json())
+            .then(res => {
+                if(!res.ok) return res.text()
+                else return res.json()})
             .then((result) => {
                 console.log(result);
 
