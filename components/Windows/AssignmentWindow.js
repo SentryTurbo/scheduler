@@ -125,6 +125,18 @@ export default function AssignmentWindow(props){
         props.setWindow(null);
     }
     
+    var finishSubtitle = '';
+    const parseFinishSubtitle = () => {
+        if(dataset.approx_date !== null){
+            finishSubtitle = "Pabeigt līdz: " + dataset.approx_date;
+        }
+
+        if(dataset.finish_date !== null && dataset.finish_date != "00-00-0000"){
+            finishSubtitle = "Pabeigts: " + dataset.finish_date;
+        }
+    }
+    parseFinishSubtitle();
+
     return(
         <div>
             {overlay != null ? overlay : <></>}
@@ -147,11 +159,16 @@ export default function AssignmentWindow(props){
                 </div>
             </div>
             <div style={{marginTop:20, display:'flex', flexDirection:'column', gap:10}}>
-                {!edititing ?
-                    <div style={{fontSize:'1.4em', fontWeight:'bold', wordWrap:'break-word'}}>{dataset.name}</div>
-                    :
-                    <input name="name" value={editData['name']} onChange={handleEdit} maxLength={"50"} className={inputStyles['input-generic']}/>
-                }
+                <div style={{display:'flex', justifyContent:'space-between'}}>
+                    {!edititing ?
+                        <div style={{fontSize:'1.4em', fontWeight:'bold', wordWrap:'break-word'}}>{dataset.name}</div>
+                        :
+                        <input name="name" value={editData['name']} onChange={handleEdit} maxLength={"50"} className={inputStyles['input-generic']}/>
+                    }
+                    <div>
+                        {finishSubtitle}
+                    </div>
+                </div>
                 <div>
                     <div>Apraksts:</div>
                     <textarea name="description" value={edititing ? editData['description'] : dataset.description} onChange={handleEdit} style={{minHeight:100}} className={inputStyles['description']}>{dataset.description}</textarea>
