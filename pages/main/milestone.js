@@ -13,10 +13,11 @@ import { useRouter } from 'next/router'
 
 import { InputButton } from "../../components/Modules/FormModules";
 
-import {BsPlusCircle, BsCheckCircle} from 'react-icons/bs';
+import {BsPlusCircle, BsCheckCircle, BsFilter} from 'react-icons/bs';
 import CreateAssignmentWindow from "../../components/Windows/CreateAssignmentWindow";
 import AssignmentWindow from "../../components/Windows/AssignmentWindow";
 
+import conveyorStyles from '../../styles/Conveyor.module.css';
 import inputStyles from '../../styles/Inputs.module.css';
 import styles from '../../styles/Milestone.module.css';
 
@@ -35,6 +36,11 @@ function Page(props){
     const [loading, setLoading] = useState(true);
     const [edit, setEdit] = useState(false);
     const [editData, setEditData] = useState({name:'name'});
+
+    const [searchSettings, setSearchSettings] = useState({
+        unfinished:{search:''},
+        finished:{search:''}
+    });
 
     const [data, setData] = useState(
         {
@@ -164,22 +170,43 @@ function Page(props){
                     }} label='Izdzēst mērķi' />
                 </div>
             </div>
-            <h1>Nepabeigti uzdevumi <BsPlusCircle style={{cursor:'pointer'}} onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
-            <div>
-                <AssignmentList refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.unfinishedassignments}/>
+            <div style={{display:'flex', justifyContent:'space-between', width:'90%'}}>
+                <h1>Nepabeigti uzdevumi <BsPlusCircle style={{cursor:'pointer'}} onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
+                <div style={{display:'flex', flexWrap:'wrap', placeContent:'center', position:'relative'}}>
+                    <FilterButton search={searchSettings} setSearch={setSearchSettings} target={'unfinished'}/>
+                </div>
             </div>
-            <h1>Pabeigti uzdevumi</h1>
             <div>
-                <AssignmentList refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.finishedassignments}/>
+                <AssignmentList search={searchSettings.unfinished.search} refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.unfinishedassignments}/>
+            </div>
+            <div style={{display:'flex', justifyContent:'space-between', width:'90%'}}>
+                <h1>Pabeigti uzdevumi</h1>
+                <div style={{display:'flex', flexWrap:'wrap', placeContent:'center', position:'relative'}}>
+                    <FilterButton search={searchSettings} setSearch={setSearchSettings} target={'finished'}/>
+                </div>
+            </div>
+            <div>
+                <AssignmentList search={searchSettings.finished.search} refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.finishedassignments}/>
             </div>
         </div>
     )
 }
 
 function AssignmentList(props){
+    let filteredArray = [];
+    if(props.search != ''){
+        props.data.map((set) => {
+            if(set.name.toLowerCase().includes(props.search.toLowerCase())) 
+                filteredArray.push(set);
+            });
+    }
+    else{
+        filteredArray = props.data;
+    }
+    
     return(
         <div className={styles['list']}>
-            {props.data.map((set) => <Assignment refreshData={props.refreshData} dataset={set} setConfirm={props.setConfirm} setWindow={props.setWindow} title={set.name}/>)}
+            {filteredArray.map((set) => <Assignment refreshData={props.refreshData} dataset={set} setConfirm={props.setConfirm} setWindow={props.setWindow} title={set.name}/>)}
         </div>
     )
 }
@@ -191,6 +218,32 @@ function Assignment(props){
                 <div>{props.title}</div>
                 <div style={{fontSize:'0.8em'}}>{(props.dataset.finish_date != "0000-00-00" && props.dataset.finish_date != null) ? <div><BsCheckCircle /> {props.dataset.finish_date}</div> : ''}</div>
             </div>
+        </div>
+    )
+}
+
+function FilterButton(p){
+    const [toggle,setToggle] = useState(false);
+    
+    const _toggle = () => {
+        setToggle(!toggle);
+    }
+
+    const handleChangeQuery = (e) => {
+        p.setSearch({...p.search, [p.target]:{search:e.target.value}});
+    }
+
+    return (
+        <div className={conveyorStyles['filter-button']}>
+            <BsFilter style={{fontSize:'1.7em'}} onClick={_toggle}/>
+            {
+                toggle &&
+                <div style={{position:'absolute', minWidth:150, backgroundColor:'rgb(240,240,240)', boxShadow:'0px 2px 20px 2px rgba(25, 0, 0, .2)', right:60, height:'fit-content', padding:10, display:'flex', alignItems:'flex-end'}}>
+                    <div>
+                        <input onChange={handleChangeQuery} style={{height:18}} placeholder="Meklēt..." className={inputStyles['input-generic']} value={p.search[p.target].search}/>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

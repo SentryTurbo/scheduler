@@ -15,7 +15,9 @@ export default function CreateAssignmentWindow(props){
         data.append('auth', localStorage.getItem("auth"));
 
         fetch(process.env.NEXT_PUBLIC_API_ADDRESS + "/actions/createassignment.php", {method:'post', body:data})
-            .then(res => res.json())
+            .then(res => {
+                if(!res.ok) return res.text()
+                else return res.json()})
             .then((result) => {
                 props.refresh();
                 props.setWindow(null);
@@ -45,6 +47,14 @@ export default function CreateAssignmentWindow(props){
                 type:'text',
                 name:'description',
                 placeholder:'Uzdevuma apraksts'
+            }
+        },
+        {
+            name:'approx_date', 
+            prettyname:'Izpildes gala datums', 
+            input:{
+                type:'date',
+                name:'approx_date'
             }
         },
         {
