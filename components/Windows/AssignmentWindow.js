@@ -166,7 +166,10 @@ export default function AssignmentWindow(props){
                         <input name="name" value={editData['name']} onChange={handleEdit} maxLength={"50"} className={inputStyles['input-generic']}/>
                     }
                     <div>
-                        {finishSubtitle}
+                        {
+                            !edititing ? finishSubtitle : 
+                            <input name="approx_date" onChange={handleEdit} value={editData['approx_date']} type="date" className={inputStyles['input-generic']}/>
+                        }
                     </div>
                 </div>
                 <div>
