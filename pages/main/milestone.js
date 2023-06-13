@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 
 import { InputButton } from "../../components/Modules/FormModules";
 
-import {BsPlusCircle, BsCheckCircle, BsFilter} from 'react-icons/bs';
+import {BsPlusCircle, BsCheckCircle, BsFilter, BsExclamationLg} from 'react-icons/bs';
 import CreateAssignmentWindow from "../../components/Windows/CreateAssignmentWindow";
 import AssignmentWindow from "../../components/Windows/AssignmentWindow";
 
@@ -38,8 +38,16 @@ function Page(props){
     const [editData, setEditData] = useState({name:'name'});
 
     const [searchSettings, setSearchSettings] = useState({
-        unfinished:{search:''},
-        finished:{search:''}
+        unfinished:{
+            search:'',
+            showNoApprox:true,
+            sortDesc:false,
+        },
+        finished:{
+            search:'',
+            showNoApprox:true,
+            sortDesc:false,
+        }
     });
 
     const [data, setData] = useState(
@@ -173,11 +181,11 @@ function Page(props){
             <div style={{display:'flex', justifyContent:'space-between', width:'90%'}}>
                 <h1>Nepabeigti uzdevumi <BsPlusCircle style={{cursor:'pointer'}} onClick={() => {props.props.setWindow(<CreateAssignmentWindow setWindow={props.props.setWindow} refresh={refreshData} milestoneId={router.query.id} />);} } /></h1>
                 <div style={{display:'flex', flexWrap:'wrap', placeContent:'center', position:'relative'}}>
-                    <FilterButton search={searchSettings} setSearch={setSearchSettings} target={'unfinished'}/>
+                    <FilterButton extra={true} search={searchSettings} setSearch={setSearchSettings} target={'unfinished'}/>
                 </div>
             </div>
             <div>
-                <AssignmentList search={searchSettings.unfinished.search} refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.unfinishedassignments}/>
+                <AssignmentList settings={searchSettings.unfinished} search={searchSettings.unfinished.search} refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.unfinishedassignments}/>
             </div>
             <div style={{display:'flex', justifyContent:'space-between', width:'90%'}}>
                 <h1>Pabeigti uzdevumi</h1>
@@ -186,7 +194,7 @@ function Page(props){
                 </div>
             </div>
             <div>
-                <AssignmentList search={searchSettings.finished.search} refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.finishedassignments}/>
+                <AssignmentList settings={searchSettings.finished} search={searchSettings.finished.search} refreshData={refreshData} setConfirm={props.props.setConfirm} setWindow={props.props.setWindow} data={data.finishedassignments}/>
             </div>
         </div>
     )
@@ -194,29 +202,113 @@ function Page(props){
 
 function AssignmentList(props){
     let filteredArray = [];
-    if(props.search != ''){
-        props.data.map((set) => {
-            if(set.name.toLowerCase().includes(props.search.toLowerCase())) 
-                filteredArray.push(set);
-            });
+
+    const parseEntry = (entry) => {
+        //is current entry good to go?
+        //if yes, return true, else, return false.
+
+        if(props.search != ''){
+            if(!entry.name.toLowerCase().includes(props.search.toLowerCase())){
+                return false;
+            }
+        }
+
+        //don't show entries with no approximate finish date
+        if(!props.settings.showNoApprox && (entry.approx_date === null || entry.approx_date == "0000-00-00")){
+            return false;
+        }
+
+        return true;
     }
-    else{
-        filteredArray = props.data;
+
+    props.data.map((set) => {
+        if(parseEntry(set)){
+            filteredArray.push(set);
+        }
+    });
+
+    //bubble sort by the approximate finish date.
+    let sortedArray = [];
+    if(true/*props.sort != ''*/){
+        filteredArray.map((set) => sortedArray.push(set));
+        
+        for(var i=0; i<sortedArray.length-1; ++i){
+            for(var j=0; j<sortedArray.length-i-1;++j){
+                //should we shift the current element to the next index?
+                var shift = false;
+                var cancel = false;
+
+                //automatically shift forward if current has no approx date
+                if(sortedArray[j].approx_date === null || sortedArray[j].approx_date == "0000-00-00")
+                    shift = true;
+                
+                if(sortedArray[j+1].approx_date === null || sortedArray[j+1].approx_date == "0000-00-00")
+                    cancel = true;
+
+                if(!shift && !cancel){
+                    //first, separate all the values
+                    var curDate = sortedArray[j].approx_date.split("-"); // parseFloat(sortedData[j]['percent']);
+                    var nexDate = sortedArray[j+1].approx_date.split("-");
+
+                    //array keys - 0: year, 1: month, 2: day
+                    var curAssoc = {year:parseInt(curDate[0]), month:parseInt(curDate[1]), day:parseInt(curDate[2])};
+                    var nexAssoc = {year:parseInt(nexDate[0]), month:parseInt(nexDate[1]), day:parseInt(nexDate[2])};
+
+                    //check year
+                    if(curAssoc.year > nexAssoc.year){
+                        shift = true;
+                    }
+                    if(curAssoc.month > nexAssoc.month){
+                        shift = true;
+                    }
+                    if(curAssoc.day > nexAssoc.day){
+                        shift = true;
+                    }
+                }
+
+                if(props.settings.sortDesc)
+                    shift = !shift;
+
+                if(shift){
+                    var temp = sortedArray[j];
+                    sortedArray[j] = sortedArray[j+1];
+                    sortedArray[j+1] = temp;
+                }
+            }
+        }
+    }else{
+        sortedArray = filteredArray;
     }
     
     return(
         <div className={styles['list']}>
-            {filteredArray.map((set) => <Assignment refreshData={props.refreshData} dataset={set} setConfirm={props.setConfirm} setWindow={props.setWindow} title={set.name}/>)}
+            {sortedArray.map((set) => <Assignment refreshData={props.refreshData} dataset={set} setConfirm={props.setConfirm} setWindow={props.setWindow} title={set.name}/>)}
         </div>
     )
 }
 
 function Assignment(props){
+    var dateSubtitle = '';
+
+    if(props.dataset.approx_date != "0000-00-00" && props.dataset.approx_date != null){
+        dateSubtitle = <div>
+            <BsExclamationLg /> {props.dataset.approx_date}
+        </div>;
+    }
+
+    if(props.dataset.finish_date != "0000-00-00" && props.dataset.finish_date != null){
+        dateSubtitle = <div>
+            <BsCheckCircle /> {props.dataset.finish_date}
+        </div>;
+    }
+
     return(
         <div className={styles['assignment']} onClick={() => {props.setWindow(<AssignmentWindow refreshData={props.refreshData} dataset={props.dataset} setConfirm={props.setConfirm} setWindow={props.setWindow}/>)}}>
             <div className={styles['assignment-info']} style={{display:'flex', justifyContent:'space-between', width:'100%', paddingRight:20}}>
                 <div>{props.title}</div>
-                <div style={{fontSize:'0.8em'}}>{(props.dataset.finish_date != "0000-00-00" && props.dataset.finish_date != null) ? <div><BsCheckCircle /> {props.dataset.finish_date}</div> : ''}</div>
+                <div style={{fontSize:'0.8em'}}>
+                    {dateSubtitle}
+                </div>
             </div>
         </div>
     )
@@ -233,17 +325,45 @@ function FilterButton(p){
         p.setSearch({...p.search, [p.target]:{search:e.target.value}});
     }
 
+    const handleChangeFilter = (e) => {
+        p.setSearch({...p.search, [p.target]:{...p.search[p.target], [e.target]:e.value}})
+    }
+
     return (
         <div className={conveyorStyles['filter-button']}>
             <BsFilter style={{fontSize:'1.7em'}} onClick={_toggle}/>
             {
                 toggle &&
                 <div style={{position:'absolute', minWidth:150, backgroundColor:'rgb(240,240,240)', boxShadow:'0px 2px 20px 2px rgba(25, 0, 0, .2)', right:60, height:'fit-content', padding:10, display:'flex', alignItems:'flex-end'}}>
-                    <div>
+                    <div style={{display:'flex', flexDirection:'column', gap:10}}>
                         <input onChange={handleChangeQuery} style={{height:18}} placeholder="Meklēt..." className={inputStyles['input-generic']} value={p.search[p.target].search}/>
+                        {p.extra &&
+                            <div>
+                                <FilterCheckbox target={'showNoApprox'} setFilter={handleChangeFilter} value={p.search[p.target].showNoApprox}>Rādīt uzdevumus bez datuma</FilterCheckbox>
+                                <FilterCheckbox target={'sortDesc'} setFilter={handleChangeFilter} value={p.search[p.target].sortDesc}>Kārtot dilstoši</FilterCheckbox>
+                            </div>
+                        }
                     </div>
                 </div>
             }
+        </div>
+    )
+}
+
+function FilterCheckbox(p){
+    const _onClick = () => {
+        p.setFilter(
+            {
+                target:p.target,
+                value:!p.value
+            }
+        );
+    }
+    
+    return (
+        <div style={{display:'flex', justifyContent:'flex-start', gap:5, height:'fit-content'}} onClick={_onClick}>
+            <input type="checkbox" checked={p.value} readOnly/>
+            <div style={{height:'fit-content'}}>{p.children}</div>
         </div>
     )
 }
