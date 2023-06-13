@@ -73,6 +73,13 @@ export default function Home() {
   
   return (
     <div style={{display:'flex', placeContent:'center', height:'100vh', flexWrap:'wrap', backgroundColor:'rgba(255,0,0,0.03)'}}>
+      <div style={{position:'absolute', fontSize:'1.4em', left:'5%', top:'5%', fontWeight:'bold'}}>Projektu sekotājs</div>
+      <div style={{position:'absolute', fontSize:'0.8em', bottom:'5%', color:'rgba(0,0,0,0.4)'}}>
+        Autors: Vlads Muravjovs<br/>
+        Aplikācija ir prakses darbs, izveidots Rēzeknes tehnikuma apmācības ietvaros.<br/>
+        Prakses vieta: SIA Midis RSEZ<br/>
+        Lietotais rīks react js, nextjs, react-icons (subdirektīva bs) ir licencēti zem MIT licences.
+      </div>
       <div style={{backgroundColor:'rgba(0,0,0,0.04)', borderRadius:'10%', padding:60}}>
         <div style={{marginBottom:25, fontWeight:'bold', fontSize:'1.2em'}}>Pierakstīšanās</div>
         <FormGeneric submit={_submit} dataset={dataset} />
