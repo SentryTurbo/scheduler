@@ -322,7 +322,7 @@ function FilterButton(p){
     }
 
     const handleChangeQuery = (e) => {
-        p.setSearch({...p.search, [p.target]:{search:e.target.value}});
+        p.setSearch({...p.search, [p.target]:{...p.search[p.target], search:e.target.value}});
     }
 
     const handleChangeFilter = (e) => {

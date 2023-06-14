@@ -54,7 +54,8 @@ export default function CreateMilestoneWindow(props){
             name:'submit',
             prettyname:'',
             input:{
-                type:'submit'
+                type:'submit',
+                value:'Apstiprināt'
             }
         }
     ]

@@ -127,11 +127,11 @@ export default function AssignmentWindow(props){
     
     var finishSubtitle = '';
     const parseFinishSubtitle = () => {
-        if(dataset.approx_date !== null){
+        if(dataset.approx_date !== null && dataset.approx_date != "0000-00-00"){
             finishSubtitle = "Pabeigt līdz: " + dataset.approx_date;
         }
 
-        if(dataset.finish_date !== null && dataset.finish_date != "00-00-0000"){
+        if(dataset.finish_date !== null && dataset.finish_date != "0000-00-00"){
             finishSubtitle = "Pabeigts: " + dataset.finish_date;
         }
     }
@@ -167,8 +167,10 @@ export default function AssignmentWindow(props){
                     }
                     <div>
                         {
-                            !edititing ? finishSubtitle : 
+                            !edititing ? finishSubtitle :
+                            <div>{'Pabeigt līdz: '}
                             <input name="approx_date" onChange={handleEdit} value={editData['approx_date']} type="date" className={inputStyles['input-generic']}/>
+                            </div>
                         }
                     </div>
                 </div>

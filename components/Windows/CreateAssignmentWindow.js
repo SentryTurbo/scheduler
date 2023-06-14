@@ -61,7 +61,8 @@ export default function CreateAssignmentWindow(props){
             name:'submit',
             prettyname:'',
             input:{
-                type:'submit'
+                type:'submit',
+                value:'Apstiprināt'
             }
         }
     ]

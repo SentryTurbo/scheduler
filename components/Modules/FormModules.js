@@ -360,7 +360,8 @@ function CreateCommentWindow(p){
             name:'submit',
             prettyname:'',
             input:{
-                type:'submit'
+                type:'submit',
+                value:'Apstiprināt'
             }
         }
     ];
@@ -514,7 +515,8 @@ function AddFileAttachmentWindow(p){
             name:'submit',
             prettyname:'',
             input:{
-                type:'submit'
+                type:'submit',
+                value:'Apstiprināt'
             }
         }
     ];

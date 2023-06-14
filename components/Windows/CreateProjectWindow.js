@@ -57,7 +57,8 @@ export default function CreateProjectWindow(props){
             name:'submit',
             prettyname:'',
             input:{
-                type:'submit'
+                type:'submit',
+                value:'Apstiprināt'
             }
         }
     ]

@@ -144,7 +144,8 @@ function SubmissionCreateWindow(p){
             name:'submit',
             prettyname:'',
             input:{
-                type:'submit'
+                type:'submit',
+                value:'Apstiprināt'
             }
         }
     ];
