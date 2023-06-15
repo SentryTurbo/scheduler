@@ -73,7 +73,9 @@
 
     font-weight: bold;
 
-    height: 25px;
+    min-height: 25px;
+    height: fit-content;
+
     width:fit-content;
 
     cursor:pointer;
